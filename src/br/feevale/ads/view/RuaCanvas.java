@@ -17,7 +17,10 @@ public class RuaCanvas extends Canvas {
 
     public void loadRuas(File arquivo) {
         ruas = new ArrayList<Rua>();
-        ruas.add(Rua.createRuaFor(50, 50, 250, 70, 3, 2));
+        ruas.add(Rua.createRuaFor(50, 50, 250, 150, 3, 2));
+        for (Rua rua : ruas) {
+            rua.pack();
+        }
     }
 
     public RuaCanvas() {
@@ -26,8 +29,6 @@ public class RuaCanvas extends Canvas {
     }
 
     public void paint(Graphics g) {
-        Rua ruaAnterior = null;
-        Rua ruaAtual = null;
         Graphics2D g2d = (Graphics2D) g;
         for (Rua rua : ruas) {
             rua.drawPath(g2d);
