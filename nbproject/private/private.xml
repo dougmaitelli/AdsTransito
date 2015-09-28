@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/U:/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/BezLab.java</file>
-            <file>file:/U:/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/RuaCanvas.java</file>
-            <file>file:/U:/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/model/Rua.java</file>
-            <file>file:/U:/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/Fee_ads_transito.java</file>
-            <file>file:/U:/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/RuaWindow.java</file>
+            <file>file:/Users/carlosborges/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/model/Rua.java</file>
+            <file>file:/Users/carlosborges/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/RuaCanvas.java</file>
+            <file>file:/Users/carlosborges/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/model/Via.java</file>
+            <file>file:/Users/carlosborges/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/ErrorListWindow.java</file>
+            <file>file:/Users/carlosborges/NetBeansProjects/fee_ads_transito/src/br/feevale/ads/view/RuaWindow.java</file>
         </group>
     </open-files>
 </project-private>

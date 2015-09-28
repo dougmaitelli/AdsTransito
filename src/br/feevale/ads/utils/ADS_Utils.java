@@ -10,6 +10,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.WindowEvent;
 import javax.swing.JLabel;
 
 /**
@@ -17,7 +18,7 @@ import javax.swing.JLabel;
  * @author 0066115
  */
 public class ADS_Utils {
-    
+
     public static int FIELD_HEIGHT = 25;
 
     public static void centerWindow(Window frame) {
@@ -26,7 +27,11 @@ public class ADS_Utils {
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
     }
-    
+
+    public static void closeWindow(Window frame) {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
     public static JLabel labelForText(String text, int width, int x, int y, Container container, boolean test) {
         JLabel lbl = new JLabel(text);
         lbl.setSize(width, FIELD_HEIGHT);
@@ -38,9 +43,9 @@ public class ADS_Utils {
         container.add(lbl);
         return lbl;
     }
-    
+
     public static JLabel labelForText(String text, int width, int x, int y, Container container) {
         return labelForText(text, width, x, y, container, false);
     }
-    
+
 }

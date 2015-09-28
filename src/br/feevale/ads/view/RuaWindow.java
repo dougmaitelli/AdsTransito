@@ -33,8 +33,8 @@ public class RuaWindow extends JFrame {
     
     private int cicloAtual;
     
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 700;
+    private static final int WIDTH = 1200;
+    private static final int HEIGHT = 900;
 
     public RuaWindow() {
         setLayout(null);
@@ -74,7 +74,7 @@ public class RuaWindow extends JFrame {
         jlblCicloMedia.setHorizontalAlignment(SwingConstants.RIGHT);
         // canvas
         jpCanvas = new RuaCanvas();
-        int canvasHeight = 500;
+        int canvasHeight = 700;
         jpCanvas.setSize(WIDTH - 40, canvasHeight);
         jpCanvas.setLocation(15, HEIGHT - (40 + canvasHeight));
         jpCanvas.setBackground(Color.white);

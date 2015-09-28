@@ -17,9 +17,10 @@ public class RuaCanvas extends Canvas {
 
     public void loadRuas(File arquivo) {
         ruas = new ArrayList<Rua>();
-        ruas.add(Rua.createRuaFor(50, 50, 250, 150, 3, 2));
+        ruas.add(Rua.createRuaFor(50, 50, 250, 150, 3, 2, "Pereira"));
         for (Rua rua : ruas) {
             rua.pack();
+            rua.debug();
         }
     }
 
