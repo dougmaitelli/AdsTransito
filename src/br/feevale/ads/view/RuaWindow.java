@@ -5,34 +5,74 @@
  */
 package br.feevale.ads.view;
 
+import br.feevale.ads.model.Rua;
+import br.feevale.ads.model.ponto.Parametros;
 import br.feevale.ads.utils.ADS_Utils;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- *
  * @author 0066115
  */
-public class RuaWindow extends JFrame {
-    
+public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalvouActionListener {
+
+    public class MoverThread extends Thread {
+
+        private boolean shouldClose = false;
+
+        @Override
+        public void run() {
+            while (!shouldClose) {
+                int ciclos = 30;
+                parar();
+                for (Rua rua : RuaCanvas.ruas) {
+                    rua.processarCiclos(ciclos);
+                }
+                cicloAtual++;
+                jpCanvas.invalidate();
+                jpCanvas.repaint();
+                updateUI();
+                if (parametros.totalDeCiclos < cicloAtual) {
+                    close();
+                }
+            }
+        }
+
+        private void parar() {
+            int tempo = 30;
+            if (parametros.ciclosPorSegundo > 0) {
+                tempo = 1000 / parametros.ciclosPorSegundo;
+            }
+            try {
+
+                Thread.sleep(tempo);
+            } catch (InterruptedException ex) {
+                // nao faz nada
+            }
+        }
+
+        public void close() {
+            shouldClose = true;
+        }
+    }
+
     private boolean isDebug = false;
-    
-    private JTextField jtfCiclos;
-    private JTextField jtfTaxaPorSegundo;
-    
     private JLabel jlblCicloAtual;
     private JLabel jlblCicloMedia;
-    
     private RuaCanvas jpCanvas;
-    
+    public Parametros parametros = new Parametros();
     private int cicloAtual;
-    
+    public MoverThread moverThread;
+    public JButton btnIniciarParar;
+
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 900;
 
@@ -51,26 +91,35 @@ public class RuaWindow extends JFrame {
         ADS_Utils.labelForText("0158378 - Douglas Alan Maitelli", 300, 30, 50, this);
         ADS_Utils.labelForText("0082006 - Tiago Steil", 300, 30, 70, this);
         ADS_Utils.labelForText("Professora: Adriana Neves dos Reis", 300, 30, 90, this);
-        // ciclos
-        jtfCiclos = new JTextField("900");
-        jtfCiclos.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfCiclos.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        jtfCiclos.setLocation(WIDTH - jtfCiclos.getWidth() - 30, 10);
-        add(jtfCiclos);
-        ADS_Utils.labelForText("Total de ciclos:", 100, WIDTH - 240, 10, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
-        // taxa por segundo
-        jtfTaxaPorSegundo = new JTextField("30");
-        jtfTaxaPorSegundo.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfTaxaPorSegundo.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        jtfTaxaPorSegundo.setLocation(WIDTH - jtfTaxaPorSegundo.getWidth() - 30, 40);
-        add(jtfTaxaPorSegundo);
-        ADS_Utils.labelForText("Taxa por seg.:", 100, WIDTH - 240, 40, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        // parametros
+        JButton btn = new JButton("Configurar");
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                actionConfigurarClick(evt);
+            }
+        });
+        btn.setLocation(WIDTH - 130, 10);
+        btn.setSize(100, 20);
+        add(btn);
+        // botao de iniciar
+        btnIniciarParar = new JButton("Iniciar");
+        btnIniciarParar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                moverThreadIniciar();
+            }
+        });
+        btnIniciarParar.setLocation(WIDTH - 240, 10);
+        btnIniciarParar.setSize(100, 20);
+        add(btnIniciarParar);
         //  ciclo
-        ADS_Utils.labelForText("Ciclo atual:", 100, WIDTH - 240, 70, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
-        jlblCicloAtual = ADS_Utils.labelForText("0", 100, WIDTH - 130, 70, this, isDebug);
+        ADS_Utils.labelForText("Ciclo atual:", 100, WIDTH - 240, 30, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        jlblCicloAtual = ADS_Utils.labelForText("0", 100, WIDTH - 130, 30, this, isDebug);
         jlblCicloAtual.setHorizontalAlignment(SwingConstants.RIGHT);
-        ADS_Utils.labelForText("Taxa média:", 100, WIDTH - 240, 100, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
-        jlblCicloMedia = ADS_Utils.labelForText("0", 100, WIDTH - 130, 100, this, isDebug);
+        // taxa media
+        ADS_Utils.labelForText("Taxa média:", 100, WIDTH - 240, 50, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        jlblCicloMedia = ADS_Utils.labelForText("0", 100, WIDTH - 130, 50, this, isDebug);
         jlblCicloMedia.setHorizontalAlignment(SwingConstants.RIGHT);
         // canvas
         jpCanvas = new RuaCanvas();
@@ -79,6 +128,51 @@ public class RuaWindow extends JFrame {
         jpCanvas.setLocation(15, HEIGHT - (40 + canvasHeight));
         jpCanvas.setBackground(Color.white);
         add(jpCanvas);
+        // window close
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (moverThread != null) {
+                    moverThread.close();
+                    moverThread = null;
+                }
+            }
+        });
     }
-    
+
+    private void moverThreadIniciar() {
+        if (moverThread != null) {
+            moverThreadParar();
+            btnIniciarParar.setText("Iniciar");
+        } else {
+            moverThread = new MoverThread();
+            moverThread.start();
+            btnIniciarParar.setText("Parar");
+        }
+    }
+
+    private void moverThreadParar() {
+        if (moverThread != null) {
+            moverThread.close();
+            moverThread = null;
+        }
+    }
+
+    private void actionConfigurarClick(ActionEvent evt) {
+        moverThreadParar();
+        ParametrosWindow.createAndShow(parametros, this);
+    }
+
+    @Override
+    public void onParametroSalvou(Parametros parametros) {
+        moverThreadParar();
+        this.parametros = parametros;
+        cicloAtual = 0;
+        updateUI();
+    }
+
+    private void updateUI() {
+        jlblCicloAtual.setText("" + cicloAtual + " / " + parametros.totalDeCiclos);
+    }
+
 }
