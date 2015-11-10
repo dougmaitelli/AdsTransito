@@ -55,12 +55,12 @@ public class RuaConexao extends Rua {
     }
 
     @Override
-    public void addCarro(int via, CarroTemporario carro) {
+    public void addCarro(int via, Carro carro) {
         // nao faz nada
     }
 
     @Override
-    public void removeCarro(CarroTemporario carro) {
+    public void removeCarro(Carro carro) {
         // nao faz nada
     }
 

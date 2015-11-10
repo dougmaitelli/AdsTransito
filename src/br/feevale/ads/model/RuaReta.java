@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.List;
+
+import br.feevale.ads.utils.ListCarros;
 
 /**
  *
@@ -21,8 +24,6 @@ public class RuaReta extends Rua {
 
     public ArrayList<Point> listViaPonto1 = new ArrayList<Point>();
     public ArrayList<Point> listViaPonto2 = new ArrayList<Point>();
-    
-    private static ArrayList<CarroTemporario> carros = new ArrayList<CarroTemporario>();
 
     // calculos
     public double angle;
@@ -171,7 +172,7 @@ public class RuaReta extends Rua {
             }
         }
         // desenha carros
-        for (CarroTemporario carro : carros) {
+        for (Carro carro : carros) {
             carro.drawPath(g2d);
         }
     }
@@ -192,7 +193,7 @@ public class RuaReta extends Rua {
     }
 
     @Override
-    public void addCarro(int via, CarroTemporario carro) {
+    public void addCarro(int via, Carro carro) {
         Point p = listViaPonto1.get(via);
         carro.setCentro(p);
         carros.add(carro);
@@ -200,12 +201,12 @@ public class RuaReta extends Rua {
     }
 
     @Override
-    public void removeCarro(CarroTemporario carro) {
+    public void removeCarro(Carro carro) {
         carros.remove(carro);
     }
     
     public void processarCiclos(int ciclos) {
-        for (CarroTemporario carro : carros) {
+        for (Carro carro : carros) {
             carro.moverCiclo(ciclos);
         }
     }
