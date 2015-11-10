@@ -65,8 +65,10 @@ public class RuaCanvas extends Canvas {
         for (Rua rua : conexoes) {
             rua.pack();
         }
-        CarroTemporario c = new CarroTemporario();
-        r.addCarro(0, c);
+        for (int i = 0; i < 10; i++) {
+	        CarroTemporario c = new CarroTemporario();
+	        r.addCarro(0, c);
+        }
     }
 
     public RuaCanvas() {

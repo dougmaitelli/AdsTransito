@@ -11,13 +11,17 @@ public class ListCarros extends ArrayList<Carro> {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public ListCarros getCarrosProximos(Carro carro, int distancia) {
+	public ListCarros getCarrosProximos(Carro carro, double distancia) {
     	ListCarros carrosProximos = new ListCarros();
     	
     	int distanciaPercorrida = carro.getDistancia();
     	
     	for (Carro c : this) {
-    		if (Math.abs(c.getDistancia() - distanciaPercorrida) >= distancia) {
+    		if (c.getVia() != carro.getVia()) {
+    			continue;
+    		}
+    		
+    		if (Math.abs(c.getDistancia() - distanciaPercorrida) <= distancia) {
     			carrosProximos.add(c);
     		}
     	}

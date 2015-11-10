@@ -15,12 +15,7 @@ import br.feevale.ads.utils.ListCarros;
  */
 public class RuaReta extends Rua {
 
-    // sem getter para desempenho
-    public Point ponto1;
-    public Point ponto2;
-    public int vias;
     public Polygon forma;
-    public String nome;
 
     public ArrayList<Point> listViaPonto1 = new ArrayList<Point>();
     public ArrayList<Point> listViaPonto2 = new ArrayList<Point>();
@@ -28,9 +23,13 @@ public class RuaReta extends Rua {
     // calculos
     public double angle;
     private Point lastPoint;
+    
+    public RuaReta(double distanciaTotal) {
+		super(distanciaTotal);
+	}
 
     public static RuaReta createRuaFor(int x1, int y1, int x2, int y2, int vias, String nome) {
-        RuaReta r = new RuaReta();
+        RuaReta r = new RuaReta(0.1); //metros por pixel
         r.ponto1 = new Point(x1, y1);
         r.ponto2 = new Point(x2, y2);
         r.vias = vias;
@@ -38,12 +37,6 @@ public class RuaReta extends Rua {
             nome = "Rua sem nome";
         }
         r.nome = nome;
-//        int ruaW2 = RUA_WIDTH / 2;
-        // cria retangulo
-//        int x = Math.min(x1 - ruaW2, x2 - ruaW2);
-//        int y = Math.min(y1, y2);
-//        int w = Math.max(x1, x2) - x;
-//        int h = Math.max(y1, y2) - y;
         r.forma = new Polygon(new int[]{x1, x2, x1, x2}, new int[]{y1, y1, y2, y2}, 4);
         return r;
     }
@@ -205,7 +198,7 @@ public class RuaReta extends Rua {
         carros.remove(carro);
     }
     
-    public void processarCiclos(int ciclos) {
+    public void processarCiclos(double ciclos) {
         for (Carro carro : carros) {
             carro.moverCiclo(ciclos);
         }

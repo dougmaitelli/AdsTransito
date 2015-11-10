@@ -14,7 +14,8 @@ public abstract class Carro {
     private static final int WIDTH = Rua.RUA_WIDTH - PADDING;
     private static final int DEEP = (int) (Rua.RUA_WIDTH * 1.5);
     
-    protected final int DISTANCIA_DE_ATENCAO = 3;
+    protected double DISTANCIA_DE_ATENCAO = 3; // metros
+    protected double VELOCIDADE_MAXIMA = 10; // metros por segundo
 
     private Point centro;
     private Rectangle rect;
@@ -22,9 +23,10 @@ public abstract class Carro {
     private Color color = Color.RED;
     
     private Rua rua;
-
-    private int distancia = 0;
     private int via;
+    
+    private int distancia = 0;
+    private double velocidade = 0;
 
     public void setCentro(Point centro) {
         int x = centro.x - (DEEP / 2);
@@ -41,6 +43,10 @@ public abstract class Carro {
         g2d.fill(rect);
 //        g2d.rotate(-angle);
     }
+    
+    public Rua getRua() {
+		return rua;
+	}
 
     public void setRua(Rua rua, int via) {
         if (this.rua != null) {
@@ -50,30 +56,62 @@ public abstract class Carro {
         this.via = via;
     }
     
+    public int getVia() {
+		return via;
+	}
+    
+    public void setVia(int via) {
+    	if (via < 0 || via > rua.getVias() - 1) {
+    		return;
+    	}
+    	
+		this.via = via;
+	}
+    
     public int getDistancia() {
 		return distancia;
 	}
+    
+    public double getVelocidade() {
+		return velocidade;
+	}
+    
+    public void addVelocidade(double velocidade) {
+    	this.velocidade += velocidade;
+    	
+    	if (this.velocidade < 0) {
+    		this.velocidade = 0;
+    	}
+    	
+    	if (this.velocidade > VELOCIDADE_MAXIMA) {
+    		this.velocidade = VELOCIDADE_MAXIMA;
+    	}
+	}
 
-    public void moverCiclo(int ciclos) {
+    public void moverCiclo(double ciclos) {
         if (rua == null) {
             return;
         }
-        distancia += 3;
         
         ListCarros carrosProximos = rua.getCarrosProximos(this, DISTANCIA_DE_ATENCAO);
         
         if (carrosProximos.getCarrosAhead(this).size() > 0) {
         	reactionCarroAhead();
+        } else {
+        	reactionCaminhoLivre();
         }
         
         if (carrosProximos.getCarrosBehind(this).size() > 0) {
         	reactionCarroBehind();
         }
         
+        distancia += (ciclos * velocidade) / rua.metrosPorPixel;
+        
         setCentro(rua.pontoForVia(via, distancia));
     }
     
     public abstract void reactionCarroAhead();
     public abstract void reactionCarroBehind();
+    public abstract void reactionCaminhoLivre();
     
 }

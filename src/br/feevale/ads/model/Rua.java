@@ -34,20 +34,45 @@ public abstract class Rua {
     public static boolean DRAW_VIA = true;
     public static GeneralPath path = new GeneralPath();
     
+    protected String nome;
+    
+    protected Point ponto1;
+    protected Point ponto2;
+    
+    protected int vias;
+    
+    protected double metrosPorPixel;
+    
     protected ListCarros carros = new ListCarros();
+    
+    public Rua(double metrosPorPixel) {
+		this.metrosPorPixel = metrosPorPixel;
+	}
     
     public abstract void pack();
     public abstract void drawPath(Graphics2D g2d);
     public abstract boolean contains(Point p);
     
+    public String getNome() {
+		return nome;
+	}
+    
+    public void setNome(String nome) {
+		this.nome = nome;
+	}
+    
+    public int getVias() {
+		return vias;
+	}
+    
     public abstract Point pontoForVia(int via, float distancia);
     public abstract void addCarro(int via, Carro carro);
     public abstract void removeCarro(Carro carro);
     
-    public ListCarros getCarrosProximos(Carro carro, int distancia) {
-    	return carros.getCarrosProximos(carro, distancia);
+    public ListCarros getCarrosProximos(Carro carro, double distanciaMetros) {
+    	return carros.getCarrosProximos(carro, distanciaMetros / metrosPorPixel);
     }
     
-    public abstract void processarCiclos(int ciclos);
+    public abstract void processarCiclos(double ciclos);
     
 }

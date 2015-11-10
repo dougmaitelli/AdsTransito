@@ -11,18 +11,34 @@ package br.feevale.ads.model;
  */
 public class CarroTemporario extends Carro {
 	
-	protected final int DISTANCIA_DE_ATENCAO = 5;
+	public CarroTemporario() {
+		DISTANCIA_DE_ATENCAO = Math.random() * 8d + 2d; // metros
+		VELOCIDADE_MAXIMA = Math.random() * 10d + 10d; // metros por segundo
+		
+		addVelocidade(Math.random() * 10);
+	}
 	
 	@Override
 	public void reactionCarroAhead() {
-		// TODO Auto-generated method stub
-		
+		if (Math.random() < 0.1) {
+			if (Math.random() > 0.5) {
+				setVia(getVia() - 1);
+			} else {
+				setVia(getVia() + 1);
+			}
+		} else {
+			addVelocidade(-1);
+		}
 	}
 	
 	@Override
 	public void reactionCarroBehind() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public void reactionCaminhoLivre() {
+		addVelocidade(1);
 	}
 
 }
