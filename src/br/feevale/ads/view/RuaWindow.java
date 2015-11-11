@@ -24,30 +24,24 @@ import javax.swing.SwingConstants;
  */
 public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalvouActionListener {
 	
-	public static final int CICLOS_POR_SEGUNDO = 50; //Quanto maior mais suave
-
     public class MoverThread extends Thread {
 
         private boolean shouldClose = false;
 
         @Override
         public void run() {
-            double ciclos = 1d / CICLOS_POR_SEGUNDO;
+            double ciclos = 1d / parametros.ciclosPorSegundo;
             while (!shouldClose) {
                 parar();
                 for (Rua rua : RuaCanvas.ruas) {
                     rua.processarCiclos(ciclos);
                 }
                 cicloAtual++;
-                jpCanvas.invalidate();
+                //jpCanvas.invalidate();
                 jpCanvas.repaint();
                 updateUI();
                 if (parametros.totalDeCiclos < cicloAtual) {
                     close();
-                }
-                try {
-                	Thread.sleep(1000 / CICLOS_POR_SEGUNDO);
-                } catch (InterruptedException ex) {
                 }
             }
         }
@@ -58,7 +52,6 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
                 tempo = 1000 / parametros.ciclosPorSegundo;
             }
             try {
-
                 Thread.sleep(tempo);
             } catch (InterruptedException ex) {
                 // nao faz nada

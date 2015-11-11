@@ -1,10 +1,5 @@
 package br.feevale.ads.view;
 
-import br.feevale.ads.model.CarroTemporario;
-import br.feevale.ads.model.Rua;
-import br.feevale.ads.model.RuaConexao;
-import br.feevale.ads.model.RuaReta;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,11 +7,17 @@ import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 
+import br.feevale.ads.model.CarroTemporario;
+import br.feevale.ads.model.Rua;
+import br.feevale.ads.model.RuaConexao;
+import br.feevale.ads.model.RuaReta;
+import br.feevale.ads.utils.DoubleBuffer;
+
 /**
  *
  * @author 0066115
  */
-public class RuaCanvas extends Canvas {
+public class RuaCanvas extends DoubleBuffer {
 
     public static ArrayList<RuaReta> ruas;
     public static ArrayList<RuaConexao> conexoes;
@@ -75,8 +76,8 @@ public class RuaCanvas extends Canvas {
         // canvas
         loadRuas(null);
     }
-
-    public void paint(Graphics g) {
+    
+    public void paintBuffer(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         // pinta de branco
         g2d.setColor(Color.WHITE);
