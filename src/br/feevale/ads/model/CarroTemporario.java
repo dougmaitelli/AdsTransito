@@ -21,12 +21,13 @@ public class CarroTemporario extends Carro {
 	@Override
 	public void reactionCarroAhead() {
 		if (Math.random() < 0.1) {
-			if (Math.random() > 0.5) {
-				setVia(getVia() - 1);
-			} else {
-				setVia(getVia() + 1);
+			int novaVia = getVia() + (Math.random() > 0.5 ? 1 : -1);
+			
+			if (getCarrosProximos().getCarrosVia(novaVia).size() == 0) {
+				setVia(novaVia);
 			}
 		} else {
+			//TODO: Only 
 			addVelocidade(-1);
 		}
 	}

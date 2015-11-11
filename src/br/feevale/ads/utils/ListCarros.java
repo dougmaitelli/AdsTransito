@@ -3,6 +3,7 @@ package br.feevale.ads.utils;
 import java.util.ArrayList;
 
 import br.feevale.ads.model.Carro;
+import br.feevale.ads.model.Via;
 
 public class ListCarros extends ArrayList<Carro> {
 
@@ -17,10 +18,6 @@ public class ListCarros extends ArrayList<Carro> {
     	int distanciaPercorrida = carro.getDistancia();
     	
     	for (Carro c : this) {
-    		if (c.getVia() != carro.getVia()) {
-    			continue;
-    		}
-    		
     		if (Math.abs(c.getDistancia() - distanciaPercorrida) <= distancia) {
     			carrosProximos.add(c);
     		}
@@ -33,6 +30,10 @@ public class ListCarros extends ArrayList<Carro> {
 		ListCarros carrosProximos = new ListCarros();
 		
 		for (Carro c : this) {
+			if (c.getVia() != carro.getVia()) {
+    			continue;
+    		}
+			
 			if (c.getDistancia() > carro.getDistancia()) {
 				carrosProximos.add(c);
 			}
@@ -45,9 +46,25 @@ public class ListCarros extends ArrayList<Carro> {
 		ListCarros carrosProximos = new ListCarros();
 		
 		for (Carro c : this) {
+			if (c.getVia() != carro.getVia()) {
+    			continue;
+    		}
+			
 			if (c.getDistancia() < carro.getDistancia()) {
 				carrosProximos.add(c);
 			}
+		}
+		
+		return carrosProximos;
+	}
+	
+	public ListCarros getCarrosVia(int via) {
+		ListCarros carrosProximos = new ListCarros();
+		
+		for (Carro c : this) {
+			if (c.getVia() == via) {
+				carrosProximos.add(c);
+    		}
 		}
 		
 		return carrosProximos;

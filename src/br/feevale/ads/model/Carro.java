@@ -27,6 +27,8 @@ public abstract class Carro {
     
     private int distancia = 0;
     private double velocidade = 0;
+    
+    private ListCarros carrosProximos;
 
     public void setCentro(Point centro) {
         int x = centro.x - (DEEP / 2);
@@ -87,13 +89,17 @@ public abstract class Carro {
     		this.velocidade = VELOCIDADE_MAXIMA;
     	}
 	}
+    
+    public ListCarros getCarrosProximos() {
+		return carrosProximos;
+	}
 
     public void moverCiclo(double ciclos) {
         if (rua == null) {
             return;
         }
         
-        ListCarros carrosProximos = rua.getCarrosProximos(this, DISTANCIA_DE_ATENCAO);
+        carrosProximos = rua.getCarrosProximos(this, DISTANCIA_DE_ATENCAO);
         
         if (carrosProximos.getCarrosAhead(this).size() > 0) {
         	reactionCarroAhead();
