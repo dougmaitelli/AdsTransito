@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.model.ponto;
+package br.feevale.ads;
 
 /**
  *
@@ -11,11 +11,11 @@ package br.feevale.ads.model.ponto;
  */
 public class Parametros {
 
-    public int totalDeCiclos = 3300;
-    public int ciclosPorSegundo = 30;
+    public static int totalDeCiclos = 3300;
+    public static int ciclosPorSegundo = 30;
 
-    public int totalVeiculos = 140;
-    public int intervaloVeiculoMin = 20;
-    public int intervaloVeiculoMax = 60;
+    public static int totalVeiculos = 140;
+    public static int intervaloVeiculoMin = 20;
+    public static int intervaloVeiculoMax = 60;
 
 }

@@ -5,8 +5,8 @@
  */
 package br.feevale.ads.view;
 
-import br.feevale.ads.model.Rua;
-import br.feevale.ads.model.ponto.Parametros;
+import br.feevale.ads.Parametros;
+import br.feevale.ads.rua.Rua;
 import br.feevale.ads.utils.ADS_Utils;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,7 +30,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
 
         @Override
         public void run() {
-            double ciclos = 1d / parametros.ciclosPorSegundo;
+            double ciclos = 1d / Parametros.ciclosPorSegundo;
             while (!shouldClose) {
                 parar();
                 for (Rua rua : RuaCanvas.ruas) {
@@ -40,7 +40,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
                 //jpCanvas.invalidate();
                 jpCanvas.repaint();
                 updateUI();
-                if (parametros.totalDeCiclos < cicloAtual) {
+                if (Parametros.totalDeCiclos < cicloAtual) {
                     close();
                 }
             }
@@ -48,8 +48,8 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
 
         private void parar() {
             int tempo = 30;
-            if (parametros.ciclosPorSegundo > 0) {
-                tempo = 1000 / parametros.ciclosPorSegundo;
+            if (Parametros.ciclosPorSegundo > 0) {
+                tempo = 1000 / Parametros.ciclosPorSegundo;
             }
             try {
                 Thread.sleep(tempo);

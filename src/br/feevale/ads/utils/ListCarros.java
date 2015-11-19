@@ -2,8 +2,8 @@ package br.feevale.ads.utils;
 
 import java.util.ArrayList;
 
-import br.feevale.ads.model.Carro;
-import br.feevale.ads.model.Via;
+import br.feevale.ads.carro.Carro;
+import br.feevale.ads.rua.Via;
 
 public class ListCarros extends ArrayList<Carro> {
 

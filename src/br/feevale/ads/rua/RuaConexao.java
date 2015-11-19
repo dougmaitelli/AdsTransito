@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.model;
+package br.feevale.ads.rua;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
+
+import br.feevale.ads.carro.Carro;
 
 /**
  *

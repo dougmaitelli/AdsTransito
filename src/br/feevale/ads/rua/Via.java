@@ -1,4 +1,4 @@
-package br.feevale.ads.model;
+package br.feevale.ads.rua;
 
 import java.awt.Point;
 import java.util.ArrayList;

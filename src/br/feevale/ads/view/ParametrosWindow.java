@@ -5,7 +5,7 @@
  */
 package br.feevale.ads.view;
 
-import br.feevale.ads.model.ponto.Parametros;
+import br.feevale.ads.Parametros;
 import br.feevale.ads.utils.ADS_Utils;
 import br.feevale.ads.utils.SpringUtilities;
 import java.awt.event.ActionEvent;

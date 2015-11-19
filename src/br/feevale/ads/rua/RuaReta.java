@@ -1,4 +1,4 @@
-package br.feevale.ads.model;
+package br.feevale.ads.rua;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -7,6 +7,10 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.feevale.ads.Parametros;
+import br.feevale.ads.carro.Carro;
+import br.feevale.ads.carro.CarroNormal;
+import br.feevale.ads.obstacles.Obstaculo;
 import br.feevale.ads.utils.ListCarros;
 
 /**
@@ -164,8 +168,15 @@ public class RuaReta extends Rua {
                 break;
             }
         }
+        for (Obstaculo obstrucao : obstrucoes) {
+            obstrucao.drawPath(g2d);
+        }
         // desenha carros
         for (Carro carro : carros) {
+        	if (carro.isConcluiuPercurso()) {
+        		continue;
+        	}
+        	
             carro.drawPath(g2d);
         }
     }
@@ -199,8 +210,29 @@ public class RuaReta extends Rua {
     }
     
     public void processarCiclos(double ciclos) {
+    	List<Integer> viasLivres = new ArrayList<>();
+    	
+    	for (int i = 0; i < vias; i++) {
+    		viasLivres.add(i);
+    	}
+    	
         for (Carro carro : carros) {
             carro.moverCiclo(ciclos);
+            
+            if (carro.getDistancia() < 5d / metrosPorPixel) {
+            	viasLivres.remove((Integer) carro.getVia());
+            }
+            
+            if (carro.getDistancia() > 1050) {
+            	carro.setConcluiuPercurso(true);
+        	}
+        }
+        
+        for (Integer via : viasLivres) {
+        	if (carros.size() < Parametros.totalVeiculos) {
+    	        CarroNormal c = new CarroNormal();
+    	        addCarro(via, c);
+        	}
         }
     }
 

@@ -7,11 +7,12 @@ import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 
-import br.feevale.ads.model.CarroTemporario;
-import br.feevale.ads.model.Rua;
-import br.feevale.ads.model.RuaConexao;
-import br.feevale.ads.model.RuaReta;
-import br.feevale.ads.utils.DoubleBuffer;
+import br.feevale.ads.obstacles.Bloqueio;
+import br.feevale.ads.obstacles.Reducao;
+import br.feevale.ads.rua.Rua;
+import br.feevale.ads.rua.RuaConexao;
+import br.feevale.ads.rua.RuaReta;
+import br.feevale.ads.view.utils.DoubleBuffer;
 
 /**
  *
@@ -62,13 +63,12 @@ public class RuaCanvas extends DoubleBuffer {
 //        addRua(RuaReta.createRuaFor(800, 50, 800, 600, 4, "Pereira 3"));
         for (Rua rua : ruas) {
             rua.pack();
+            rua.addObstaculo(new Reducao(rua, 0, 500));
+            rua.addObstaculo(new Bloqueio(rua, 1, 700));
+            rua.addObstaculo(new Reducao(rua, 2, 300));
         }
         for (Rua rua : conexoes) {
             rua.pack();
-        }
-        for (int i = 0; i < 10; i++) {
-	        CarroTemporario c = new CarroTemporario();
-	        r.addCarro(0, c);
         }
     }
 

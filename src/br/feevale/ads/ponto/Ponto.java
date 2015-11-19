@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.model.ponto;
+package br.feevale.ads.ponto;
 
-import br.feevale.ads.model.CarroTemporario;
-import br.feevale.ads.model.RuaReta;
+import br.feevale.ads.carro.CarroNormal;
+import br.feevale.ads.rua.RuaReta;
+
 import java.awt.Point;
 
 /**
