@@ -1,4 +1,4 @@
-package br.feevale.ads.rua;
+package br.feevale.ads.street;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -7,23 +7,23 @@ import java.util.ArrayList;
  *
  * @author carlosborges
  */
-public class Via {
+public class Lane {
 
     public String nome;
     public Point ponto1;
     public Point ponto2;
 
-    public ArrayList<Via> conectaViasPonto1 = new ArrayList<Via>();
-    public ArrayList<Via> conectaViasParalelasIda = new ArrayList<Via>();
-    public ArrayList<Via> conectaViasPonto2 = new ArrayList<Via>();
-    public ArrayList<Via> conectaViasParalelasVolta = new ArrayList<Via>();
+    public ArrayList<Lane> conectaViasPonto1 = new ArrayList<Lane>();
+    public ArrayList<Lane> conectaViasParalelasIda = new ArrayList<Lane>();
+    public ArrayList<Lane> conectaViasPonto2 = new ArrayList<Lane>();
+    public ArrayList<Lane> conectaViasParalelasVolta = new ArrayList<Lane>();
 
-    private Via() {
+    private Lane() {
 
     }
 
-    public static Via getNewInstance(Point ponto1, Point ponto2, String nome) {
-        Via v = new Via();
+    public static Lane getNewInstance(Point ponto1, Point ponto2, String nome) {
+        Lane v = new Lane();
         v.ponto1 = ponto1;
         v.ponto2 = ponto2;
         v.nome = nome;
@@ -35,7 +35,7 @@ public class Via {
         ponto1 = ponto2;
         ponto2 = p;
         // pontos conectados
-        ArrayList<Via> l = conectaViasPonto1;
+        ArrayList<Lane> l = conectaViasPonto1;
         conectaViasPonto1 = conectaViasPonto2;
         conectaViasPonto2 = l;
         // paralelas

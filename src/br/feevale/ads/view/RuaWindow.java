@@ -6,7 +6,7 @@
 package br.feevale.ads.view;
 
 import br.feevale.ads.Parametros;
-import br.feevale.ads.rua.Rua;
+import br.feevale.ads.street.Street;
 import br.feevale.ads.utils.ADS_Utils;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,7 +33,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
             double ciclos = 1d / Parametros.ciclosPorSegundo;
             while (!shouldClose) {
                 parar();
-                for (Rua rua : RuaCanvas.ruas) {
+                for (Street rua : RuaCanvas.ruas) {
                     rua.processarCiclos(ciclos);
                 }
                 cicloAtual++;

@@ -6,18 +6,18 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import br.feevale.ads.rua.Rua;
+import br.feevale.ads.street.Street;
 
-public class Bloqueio extends Obstaculo {
+public class Reduction extends Obstacle {
 	
-    private static final int WIDTH = Rua.RUA_WIDTH;
-    private static final int DEEP = (int) (Rua.RUA_WIDTH * 1.5);
+    private static final int WIDTH = Street.RUA_WIDTH;
+    private static final int DEEP = (int) (Street.RUA_WIDTH * 0.5);
     
     private Point centro;
     private Rectangle rect;
-    private Color color = Color.RED;
+    private Color color = Color.BLUE;
     
-    public Bloqueio(Rua rua, int via, int distancia) {
+    public Reduction(Street rua, int via, int distancia) {
     	super(rua, via, distancia);
 	}
     

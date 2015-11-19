@@ -3,16 +3,16 @@ package br.feevale.ads.obstacles;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import br.feevale.ads.rua.Rua;
+import br.feevale.ads.street.Street;
 
-public abstract class Obstaculo {
+public abstract class Obstacle {
 	
-    private Rua rua;
+    private Street rua;
     private int via;
     
     private int distancia = 0;
     
-    public Obstaculo(Rua rua, int via, int distancia) {
+    public Obstacle(Street rua, int via, int distancia) {
     	this.distancia = distancia;
     	
     	setRua(rua, via);
@@ -22,11 +22,11 @@ public abstract class Obstaculo {
 
     public abstract void drawPath(Graphics g);
     
-    public Rua getRua() {
+    public Street getRua() {
 		return rua;
 	}
 
-    public void setRua(Rua rua, int via) {
+    public void setRua(Street rua, int via) {
         this.rua = rua;
         this.via = via;
         setCentro(rua.pontoForVia(via, distancia));

@@ -7,11 +7,11 @@ import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 
-import br.feevale.ads.obstacles.Bloqueio;
-import br.feevale.ads.obstacles.Reducao;
-import br.feevale.ads.rua.Rua;
-import br.feevale.ads.rua.RuaConexao;
-import br.feevale.ads.rua.RuaReta;
+import br.feevale.ads.obstacles.Blockage;
+import br.feevale.ads.obstacles.Reduction;
+import br.feevale.ads.street.Street;
+import br.feevale.ads.street.StreetConnection;
+import br.feevale.ads.street.StraightStreet;
 import br.feevale.ads.view.utils.DoubleBuffer;
 
 /**
@@ -20,31 +20,31 @@ import br.feevale.ads.view.utils.DoubleBuffer;
  */
 public class RuaCanvas extends DoubleBuffer {
 
-    public static ArrayList<RuaReta> ruas;
-    public static ArrayList<RuaConexao> conexoes;
+    public static ArrayList<StraightStreet> ruas;
+    public static ArrayList<StreetConnection> conexoes;
     
-    private void addRua(Rua rua) {
+    private void addRua(Street rua) {
         if (conexoes == null) {
-            conexoes = new ArrayList<RuaConexao>();
+            conexoes = new ArrayList<StreetConnection>();
         }
         if (ruas == null) {
-            ruas = new ArrayList<RuaReta>();
+            ruas = new ArrayList<StraightStreet>();
         }
-        if (rua instanceof RuaConexao) {
-            conexoes.add((RuaConexao) rua);
+        if (rua instanceof StreetConnection) {
+            conexoes.add((StreetConnection) rua);
         }
-        if (rua instanceof RuaReta) {
-            ruas.add((RuaReta) rua);
+        if (rua instanceof StraightStreet) {
+            ruas.add((StraightStreet) rua);
         }
     }
     
-    public Rua ruaForPoint(Point ponto) {
-        for (Rua rua : conexoes) {
+    public Street ruaForPoint(Point ponto) {
+        for (Street rua : conexoes) {
             if (rua.contains(ponto)) {
                 return rua;
             }
         }
-        for (Rua rua : ruas) {
+        for (Street rua : ruas) {
             if (rua.contains(ponto)) {
                 return rua;
             }
@@ -53,21 +53,21 @@ public class RuaCanvas extends DoubleBuffer {
     }
 
     public void loadRuas(File arquivo) {
-        conexoes = new ArrayList<RuaConexao>();
-        ruas = new ArrayList<RuaReta>();
-        Rua r = RuaReta.createRuaFor(50, 350, 1100, 350, 3, "Pereira");
+        conexoes = new ArrayList<StreetConnection>();
+        ruas = new ArrayList<StraightStreet>();
+        Street r = StraightStreet.createRuaFor(50, 350, 1100, 350, 3, "Pereira");
         addRua(r);
 //        addRua(RuaConexao.createInPoint(new Point(800, 450), 3));
 //        addRua(RuaReta.createRuaFor(50, 150, 800, 150, 4, "Pereira 2"));
 //        addRua(RuaConexao.createInPoint(new Point(800, 150), 4));
 //        addRua(RuaReta.createRuaFor(800, 50, 800, 600, 4, "Pereira 3"));
-        for (Rua rua : ruas) {
+        for (Street rua : ruas) {
             rua.pack();
-            rua.addObstaculo(new Reducao(rua, 0, 500));
-            rua.addObstaculo(new Bloqueio(rua, 1, 700));
-            rua.addObstaculo(new Reducao(rua, 2, 300));
+            rua.addObstaculo(new Reduction(rua, 0, 500));
+            rua.addObstaculo(new Blockage(rua, 1, 700));
+            rua.addObstaculo(new Reduction(rua, 2, 300));
         }
-        for (Rua rua : conexoes) {
+        for (Street rua : conexoes) {
             rua.pack();
         }
     }
@@ -83,10 +83,10 @@ public class RuaCanvas extends DoubleBuffer {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, this.getSize().width, this.getSize().height);
         // carro
-        for (Rua rua : ruas) {
+        for (Street rua : ruas) {
             rua.drawPath(g2d);
         }
-        for (Rua rua : conexoes) {
+        for (Street rua : conexoes) {
             rua.drawPath(g2d);
         }
     }

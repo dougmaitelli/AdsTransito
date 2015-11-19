@@ -1,4 +1,4 @@
-package br.feevale.ads.rua;
+package br.feevale.ads.street;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.feevale.ads.Parametros;
-import br.feevale.ads.carro.Carro;
-import br.feevale.ads.carro.CarroNormal;
-import br.feevale.ads.obstacles.Obstaculo;
-import br.feevale.ads.utils.ListCarros;
+import br.feevale.ads.car.Car;
+import br.feevale.ads.car.NormalCar;
+import br.feevale.ads.obstacles.Obstacle;
+import br.feevale.ads.utils.ListCars;
 
 /**
  *
  * @author 0066115
  */
-public class RuaReta extends Rua {
+public class StraightStreet extends Street {
 
     public Polygon forma;
 
@@ -28,12 +28,12 @@ public class RuaReta extends Rua {
     public double angle;
     private Point lastPoint;
     
-    public RuaReta(double distanciaTotal) {
+    public StraightStreet(double distanciaTotal) {
 		super(distanciaTotal);
 	}
 
-    public static RuaReta createRuaFor(int x1, int y1, int x2, int y2, int vias, String nome) {
-        RuaReta r = new RuaReta(0.1); //metros por pixel
+    public static StraightStreet createRuaFor(int x1, int y1, int x2, int y2, int vias, String nome) {
+        StraightStreet r = new StraightStreet(0.1); //metros por pixel
         r.ponto1 = new Point(x1, y1);
         r.ponto2 = new Point(x2, y2);
         r.vias = vias;
@@ -168,11 +168,11 @@ public class RuaReta extends Rua {
                 break;
             }
         }
-        for (Obstaculo obstrucao : obstrucoes) {
+        for (Obstacle obstrucao : obstrucoes) {
             obstrucao.drawPath(g2d);
         }
         // desenha carros
-        for (Carro carro : carros) {
+        for (Car carro : carros) {
         	if (carro.isConcluiuPercurso()) {
         		continue;
         	}
@@ -197,7 +197,7 @@ public class RuaReta extends Rua {
     }
 
     @Override
-    public void addCarro(int via, Carro carro) {
+    public void addCarro(int via, Car carro) {
         Point p = listViaPonto1.get(via);
         carro.setCentro(p);
         carros.add(carro);
@@ -205,7 +205,7 @@ public class RuaReta extends Rua {
     }
 
     @Override
-    public void removeCarro(Carro carro) {
+    public void removeCarro(Car carro) {
         carros.remove(carro);
     }
     
@@ -216,7 +216,7 @@ public class RuaReta extends Rua {
     		viasLivres.add(i);
     	}
     	
-        for (Carro carro : carros) {
+        for (Car carro : carros) {
             carro.moverCiclo(ciclos);
             
             if (carro.getDistancia() < 5d / metrosPorPixel) {
@@ -230,7 +230,7 @@ public class RuaReta extends Rua {
         
         for (Integer via : viasLivres) {
         	if (carros.size() < Parametros.totalVeiculos) {
-    	        CarroNormal c = new CarroNormal();
+    	        NormalCar c = new NormalCar();
     	        addCarro(via, c);
         	}
         }

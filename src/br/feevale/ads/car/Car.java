@@ -1,4 +1,4 @@
-package br.feevale.ads.carro;
+package br.feevale.ads.car;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,15 +6,15 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import br.feevale.ads.obstacles.Obstaculo;
-import br.feevale.ads.rua.Rua;
-import br.feevale.ads.utils.ListCarros;
+import br.feevale.ads.obstacles.Obstacle;
+import br.feevale.ads.street.Street;
+import br.feevale.ads.utils.ListCars;
 
-public abstract class Carro {
+public abstract class Car {
 	
 	private static final int PADDING = 4;
-    private static final int WIDTH = Rua.RUA_WIDTH - PADDING;
-    private static final int DEEP = (int) (Rua.RUA_WIDTH * 1.5);
+    private static final int WIDTH = Street.RUA_WIDTH - PADDING;
+    private static final int DEEP = (int) (Street.RUA_WIDTH * 1.5);
     
     protected double GRAU_DE_ATENCAO = 3;
     protected double DISTANCIA_DE_ATENCAO = 3; // metros
@@ -25,14 +25,14 @@ public abstract class Carro {
     private float angle = 0;
     private Color color = Color.GREEN;
     
-    private Rua rua;
+    private Street rua;
     private int via;
     
     private int distancia = 0;
     private double velocidade = 0;
     private boolean concluiuPercurso = false;
     
-    private ListCarros carrosProximos;
+    private ListCars carrosProximos;
 
     public void setCentro(Point centro) {
         int x = centro.x - (DEEP / 2);
@@ -50,11 +50,11 @@ public abstract class Carro {
 //        g2d.rotate(-angle);
     }
     
-    public Rua getRua() {
+    public Street getRua() {
 		return rua;
 	}
 
-    public void setRua(Rua rua, int via) {
+    public void setRua(Street rua, int via) {
         if (this.rua != null) {
             rua.removeCarro(this);
         }
@@ -104,7 +104,7 @@ public abstract class Carro {
 		this.concluiuPercurso = concluiuPercurso;
 	}
     
-    public ListCarros getCarrosProximos() {
+    public ListCars getCarrosProximos() {
 		return carrosProximos;
 	}
 
@@ -118,7 +118,7 @@ public abstract class Carro {
         if (carrosProximos.getCarrosAhead(this).size() > 0) {
         	reactionCarroAhead();
         } else {
-        	Obstaculo obstaculo = rua.getObstaculosAhead(this, DISTANCIA_DE_ATENCAO);
+        	Obstacle obstaculo = rua.getObstaculosAhead(this, DISTANCIA_DE_ATENCAO);
         	
         	if (obstaculo != null) {
 	        	reactionObstaculoAhead(obstaculo);
@@ -137,7 +137,7 @@ public abstract class Carro {
     }
     
     public abstract void reactionCarroAhead();
-    public abstract void reactionObstaculoAhead(Obstaculo obstaculo);
+    public abstract void reactionObstaculoAhead(Obstacle obstaculo);
     public abstract void reactionCarroBehind();
     public abstract void reactionCaminhoLivre();
     

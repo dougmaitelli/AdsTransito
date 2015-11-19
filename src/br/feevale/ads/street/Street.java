@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.rua;
+package br.feevale.ads.street;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,15 +13,15 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.feevale.ads.carro.Carro;
-import br.feevale.ads.obstacles.Obstaculo;
-import br.feevale.ads.utils.ListCarros;
+import br.feevale.ads.car.Car;
+import br.feevale.ads.obstacles.Obstacle;
+import br.feevale.ads.utils.ListCars;
 
 /**
  *
  * @author 0066115
  */
-public abstract class Rua {
+public abstract class Street {
     
     public static final int RUA_WIDTH = 12;
     public static final int LINHA_WIDTH = 2;
@@ -47,10 +47,10 @@ public abstract class Rua {
     
     protected double metrosPorPixel;
     
-    protected ListCarros carros = new ListCarros();
-    protected List<Obstaculo> obstrucoes = new ArrayList<>();
+    protected ListCars carros = new ListCars();
+    protected List<Obstacle> obstrucoes = new ArrayList<>();
     
-    public Rua(double metrosPorPixel) {
+    public Street(double metrosPorPixel) {
 		this.metrosPorPixel = metrosPorPixel;
 	}
     
@@ -75,20 +75,20 @@ public abstract class Rua {
 	}
     
     public abstract Point pontoForVia(int via, float distancia);
-    public abstract void addCarro(int via, Carro carro);
-    public abstract void removeCarro(Carro carro);
+    public abstract void addCarro(int via, Car carro);
+    public abstract void removeCarro(Car carro);
     
-    public ListCarros getCarrosProximos(Carro carro, double distanciaMetros) {
+    public ListCars getCarrosProximos(Car carro, double distanciaMetros) {
     	return carros.getCarrosProximos(carro, distanciaMetros / metrosPorPixel);
     }
     
-    public Obstaculo getObstaculosAhead(Carro carro, double distanciaMetros) {
+    public Obstacle getObstaculosAhead(Car carro, double distanciaMetros) {
     	int via = carro.getVia();
     	int distanciaPercorrida = carro.getDistancia();
     	
-    	Obstaculo obstaculoProximo = null;
+    	Obstacle obstaculoProximo = null;
     	
-    	for (Obstaculo o : obstrucoes) {
+    	for (Obstacle o : obstrucoes) {
     		if (via != o.getVia() || distanciaPercorrida > o.getDistancia()) {
     			continue;
     		}
@@ -101,7 +101,7 @@ public abstract class Rua {
     	return obstaculoProximo;
     }
     
-    public void addObstaculo(Obstaculo obstaculo) {
+    public void addObstaculo(Obstacle obstaculo) {
     	obstrucoes.add(obstaculo);
     }
     

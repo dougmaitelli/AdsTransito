@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.ponto;
+package br.feevale.ads.point;
 
-import br.feevale.ads.carro.CarroNormal;
-import br.feevale.ads.rua.RuaReta;
+import br.feevale.ads.car.NormalCar;
+import br.feevale.ads.street.StraightStreet;
 
 import java.awt.Point;
 
@@ -17,6 +17,6 @@ import java.awt.Point;
 public class Ponto {
     
     public Point localisacao;
-    public RuaReta rua;
+    public StraightStreet rua;
     
 }

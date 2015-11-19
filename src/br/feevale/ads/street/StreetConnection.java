@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.feevale.ads.rua;
+package br.feevale.ads.street;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
-import br.feevale.ads.carro.Carro;
+import br.feevale.ads.car.Car;
 
 /**
  *
  * @author 0066115
  */
-public class RuaConexao extends Rua {
+public class StreetConnection extends Street {
 
     private Ellipse2D.Float elipse;
     private Point ponto;
     private int vias;
     
-    public RuaConexao(int distanciaTotal) {
+    public StreetConnection(int distanciaTotal) {
 		super(distanciaTotal);
 	}
 
@@ -61,12 +61,12 @@ public class RuaConexao extends Rua {
     }
 
     @Override
-    public void addCarro(int via, Carro carro) {
+    public void addCarro(int via, Car carro) {
         // nao faz nada
     }
 
     @Override
-    public void removeCarro(Carro carro) {
+    public void removeCarro(Car carro) {
         // nao faz nada
     }
 

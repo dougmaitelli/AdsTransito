@@ -2,22 +2,22 @@ package br.feevale.ads.utils;
 
 import java.util.ArrayList;
 
-import br.feevale.ads.carro.Carro;
-import br.feevale.ads.rua.Via;
+import br.feevale.ads.car.Car;
+import br.feevale.ads.street.Lane;
 
-public class ListCarros extends ArrayList<Carro> {
+public class ListCars extends ArrayList<Car> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public ListCarros getCarrosProximos(Carro carro, double distancia) {
-    	ListCarros carrosProximos = new ListCarros();
+	public ListCars getCarrosProximos(Car carro, double distancia) {
+    	ListCars carrosProximos = new ListCars();
     	
     	int distanciaPercorrida = carro.getDistancia();
     	
-    	for (Carro c : this) {
+    	for (Car c : this) {
     		if (Math.abs(c.getDistancia() - distanciaPercorrida) <= distancia) {
     			carrosProximos.add(c);
     		}
@@ -26,10 +26,10 @@ public class ListCarros extends ArrayList<Carro> {
     	return carrosProximos;
     }
 	
-	public ListCarros getCarrosAhead(Carro carro) {
-		ListCarros carrosProximos = new ListCarros();
+	public ListCars getCarrosAhead(Car carro) {
+		ListCars carrosProximos = new ListCars();
 		
-		for (Carro c : this) {
+		for (Car c : this) {
 			if (c.getVia() != carro.getVia()) {
     			continue;
     		}
@@ -42,10 +42,10 @@ public class ListCarros extends ArrayList<Carro> {
 		return carrosProximos;
 	}
 	
-	public ListCarros getCarrosBehind(Carro carro) {
-		ListCarros carrosProximos = new ListCarros();
+	public ListCars getCarrosBehind(Car carro) {
+		ListCars carrosProximos = new ListCars();
 		
-		for (Carro c : this) {
+		for (Car c : this) {
 			if (c.getVia() != carro.getVia()) {
     			continue;
     		}
@@ -58,10 +58,10 @@ public class ListCarros extends ArrayList<Carro> {
 		return carrosProximos;
 	}
 	
-	public ListCarros getCarrosVia(int via) {
-		ListCarros carrosProximos = new ListCarros();
+	public ListCars getCarrosVia(int via) {
+		ListCars carrosProximos = new ListCars();
 		
-		for (Carro c : this) {
+		for (Car c : this) {
 			if (c.getVia() == via) {
 				carrosProximos.add(c);
     		}
