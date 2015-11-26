@@ -11,7 +11,6 @@ package br.feevale.ads;
  */
 public class Parametros {
 
-    public static int totalDeCiclos = 3300;
     public static int ciclosPorSegundo = 30;
 
     public static int totalVeiculos = 140;

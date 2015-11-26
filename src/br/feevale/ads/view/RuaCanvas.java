@@ -11,7 +11,6 @@ import br.feevale.ads.obstacles.Blockage;
 import br.feevale.ads.obstacles.Reduction;
 import br.feevale.ads.street.Street;
 import br.feevale.ads.street.StreetConnection;
-import br.feevale.ads.street.StraightStreet;
 import br.feevale.ads.view.utils.DoubleBuffer;
 
 /**
@@ -20,7 +19,7 @@ import br.feevale.ads.view.utils.DoubleBuffer;
  */
 public class RuaCanvas extends DoubleBuffer {
 
-    public static ArrayList<StraightStreet> ruas;
+    public static ArrayList<Street> ruas;
     public static ArrayList<StreetConnection> conexoes;
     
     private void addRua(Street rua) {
@@ -28,13 +27,13 @@ public class RuaCanvas extends DoubleBuffer {
             conexoes = new ArrayList<StreetConnection>();
         }
         if (ruas == null) {
-            ruas = new ArrayList<StraightStreet>();
+            ruas = new ArrayList<Street>();
         }
         if (rua instanceof StreetConnection) {
             conexoes.add((StreetConnection) rua);
         }
-        if (rua instanceof StraightStreet) {
-            ruas.add((StraightStreet) rua);
+        if (rua instanceof Street) {
+            ruas.add((Street) rua);
         }
     }
     
@@ -54,8 +53,8 @@ public class RuaCanvas extends DoubleBuffer {
 
     public void loadRuas(File arquivo) {
         conexoes = new ArrayList<StreetConnection>();
-        ruas = new ArrayList<StraightStreet>();
-        Street r = StraightStreet.createRuaFor(50, 350, 1100, 350, 3, "Pereira");
+        ruas = new ArrayList<Street>();
+        Street r = Street.createRuaFor(50, 350, 1100, 350, 3, "Pereira");
         addRua(r);
 //        addRua(RuaConexao.createInPoint(new Point(800, 450), 3));
 //        addRua(RuaReta.createRuaFor(50, 150, 800, 150, 4, "Pereira 2"));

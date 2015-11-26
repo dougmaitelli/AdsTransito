@@ -5,13 +5,11 @@
  */
 package br.feevale.ads.view;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.utils.ADS_Utils;
-import br.feevale.ads.utils.SpringUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+
+import br.feevale.ads.Parametros;
+import br.feevale.ads.utils.ADS_Utils;
+import br.feevale.ads.utils.SpringUtilities;
 
 /**
  *
@@ -38,7 +40,6 @@ public class ParametrosWindow extends JFrame {
     public static final int WIDTH = 220;
     public static final int HEIGHT = 226;
 
-    private JTextField jtfCiclos;
     private JTextField jtfCiclosPorSegundo;
     private JTextField jtfNumeroVeiculos;
     private JTextField jtfIntervaloEntradaMin;
@@ -63,12 +64,6 @@ public class ParametrosWindow extends JFrame {
         setSize(WIDTH, HEIGHT);
         setLayout(new SpringLayout());
         setTitle("Parâmetros");
-        // ciclos
-        addLabel("Total de ciclos:");
-        jtfCiclos = new JTextField("1500");
-        jtfCiclos.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfCiclos.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        panel.add(jtfCiclos);
         // taxa por segundo
         addLabel("Ciclos por segundo:");
         jtfCiclosPorSegundo = new JTextField("30");
@@ -113,7 +108,7 @@ public class ParametrosWindow extends JFrame {
         panel.add(btn);
         //Lay out the panel.
         SpringUtilities.makeCompactGrid(panel, //parent
-                6, 2, // rows, cols
+                5, 2, // rows, cols
                 5, 5, //initX, initY
                 10, 10); //xPad, yPad
         // se fechar
@@ -135,7 +130,6 @@ public class ParametrosWindow extends JFrame {
 
     private void loadParametros(Parametros param) {
         jtfCiclosPorSegundo.setText(String.valueOf(param.ciclosPorSegundo));
-        jtfCiclos.setText(String.valueOf(param.totalDeCiclos));
         jtfNumeroVeiculos.setText(String.valueOf(param.totalVeiculos));
         jtfIntervaloEntradaMin.setText(String.valueOf(param.intervaloVeiculoMin));
         jtfIntervaloEntradaMax.setText(String.valueOf(param.intervaloVeiculoMax));
@@ -144,7 +138,6 @@ public class ParametrosWindow extends JFrame {
     private void actionSalvarClick() {
         try {
             Parametros parametros = new Parametros();
-            parametros.totalDeCiclos = Integer.parseInt(jtfCiclos.getText());
             parametros.ciclosPorSegundo = Integer.parseInt(jtfCiclosPorSegundo.getText());
             parametros.totalVeiculos = Integer.parseInt(jtfNumeroVeiculos.getText());
             parametros.intervaloVeiculoMin = Integer.parseInt(jtfIntervaloEntradaMin.getText());

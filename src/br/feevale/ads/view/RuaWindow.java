@@ -5,19 +5,21 @@
  */
 package br.feevale.ads.view;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.street.Street;
-import br.feevale.ads.utils.ADS_Utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import br.feevale.ads.Parametros;
+import br.feevale.ads.street.Street;
+import br.feevale.ads.utils.ADS_Utils;
 
 /**
  * @author 0066115
@@ -40,9 +42,6 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
                 //jpCanvas.invalidate();
                 jpCanvas.repaint();
                 updateUI();
-                if (Parametros.totalDeCiclos < cicloAtual) {
-                    close();
-                }
             }
         }
 
@@ -171,7 +170,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
     }
 
     private void updateUI() {
-        jlblCicloAtual.setText("" + cicloAtual + " / " + parametros.totalDeCiclos);
+        jlblCicloAtual.setText(String.valueOf(cicloAtual));
     }
 
 }

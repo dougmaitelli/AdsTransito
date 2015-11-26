@@ -3,7 +3,6 @@ package br.feevale.ads.utils;
 import java.util.ArrayList;
 
 import br.feevale.ads.car.Car;
-import br.feevale.ads.street.Lane;
 
 public class ListCars extends ArrayList<Car> {
 
@@ -18,6 +17,10 @@ public class ListCars extends ArrayList<Car> {
     	int distanciaPercorrida = carro.getDistancia();
     	
     	for (Car c : this) {
+    		if (c.isConcluiuPercurso()) {
+    			continue;
+    		}
+    		
     		if (Math.abs(c.getDistancia() - distanciaPercorrida) <= distancia) {
     			carrosProximos.add(c);
     		}
