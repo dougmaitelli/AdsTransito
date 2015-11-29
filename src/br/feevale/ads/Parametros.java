@@ -17,7 +17,9 @@ public class Parametros {
         VELOCIDADE_MAXIMA("Velocidade Máx."),
         GRAU_ATENCAO("Grau de atenção"),
         DISTANCIA_ATENCAO("Dist. atenção min"),
-        SEMENTE_RANDOM("Semente");
+        SEMENTE_RANDOM("Semente"),
+        CONTEXTO("Contexto"),
+        VELOCIDADE_MAXIMA_REDUTOR("Vel. máx. redutor");
 
         private final String titulo;
 
@@ -28,15 +30,17 @@ public class Parametros {
         public String getTitulo() {
             return titulo;
         }
-        
+
         public static List<Tipo> orderedList() {
             ArrayList<Tipo> list = new ArrayList<Tipo>();
             list.add(VELOCIDADE_MAXIMA);
             list.add(TOTAL_VEICULOS);
             list.add(SEMENTE_RANDOM);
+            list.add(CONTEXTO);
             list.add(DISTANCIA_ATENCAO);
             list.add(GRAU_ATENCAO);
             list.add(CICLO_POR_SEGUNDO);
+            list.add(VELOCIDADE_MAXIMA_REDUTOR);
             return list;
         }
 
@@ -48,13 +52,15 @@ public class Parametros {
         map.put(Tipo.VELOCIDADE_MAXIMA, "" + velocidadeMaxima);
         map.put(Tipo.TOTAL_VEICULOS, "" + totalVeiculos);
         map.put(Tipo.SEMENTE_RANDOM, "" + sementeRandom);
+        map.put(Tipo.CONTEXTO, "" + contexto);
         // secundarios
         map.put(Tipo.DISTANCIA_ATENCAO, "" + distanciaAtencao);
         map.put(Tipo.GRAU_ATENCAO, "" + grauAtencao);
         map.put(Tipo.CICLO_POR_SEGUNDO, "" + ciclosPorSegundo);
+        map.put(Tipo.VELOCIDADE_MAXIMA_REDUTOR, "" + velocidadeMaximaRedutor);
         return map;
     }
-    
+
     public static boolean putListParametros(HashMap<Tipo, String> valores) {
         for (Tipo tp : valores.keySet()) {
             String valor = valores.get(tp);
@@ -84,6 +90,14 @@ public class Parametros {
                         sementeRandom = Long.parseLong(valor);
                         ADS_Utils.setRandomSeed(sementeRandom);
                         break;
+
+                    case CONTEXTO:
+                        contexto = Integer.parseInt(valor);
+                        break;
+
+                    case VELOCIDADE_MAXIMA_REDUTOR:
+                        velocidadeMaximaRedutor = Double.parseDouble(valor);
+                        break;
                 }
             } catch (Exception ex) {
                 return false;
@@ -92,11 +106,13 @@ public class Parametros {
         return true;
     }
 
+    public static int contexto = 1;
     public static long sementeRandom = 2015l;
     public static double distanciaAtencao = 3;
     public static double grauAtencao = 0.5;
     public static int ciclosPorSegundo = 30;
     public static int totalVeiculos = 140;
     public static int velocidadeMaxima = 30;
+    public static double velocidadeMaximaRedutor = 7d;
 
 }

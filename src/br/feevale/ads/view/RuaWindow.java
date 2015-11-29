@@ -82,7 +82,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
     private long ts_fim = 0;
 
     private static final int WIDTH = 1200;
-    private static final int HEIGHT = 900;
+    private static final int HEIGHT = 300;
 
     public RuaWindow() {
         setLayout(null);
@@ -150,7 +150,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
         jlblVelocidadeMaxima.setHorizontalAlignment(SwingConstants.RIGHT);
         // canvas
         jpCanvas = new RuaCanvas();
-        int canvasHeight = 700;
+        int canvasHeight = 100;
         jpCanvas.setSize(WIDTH - 40, canvasHeight);
         jpCanvas.setLocation(15, HEIGHT - (40 + canvasHeight));
         jpCanvas.setBackground(Color.white);
@@ -219,12 +219,12 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
     }
 
     private void actionConfigurarClick(ActionEvent evt) {
-//        moverThreadParar(); // nao precisa, para no salvar
         ParametrosWindow.createAndShow(this);
     }
 
     @Override
     public void onParametroSalvou() {
+        jpCanvas.loadRuas(null);
         moverThreadParar();
         updateUI();
     }

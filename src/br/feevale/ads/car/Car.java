@@ -103,6 +103,10 @@ public abstract class Car {
         return velocidade;
     }
 
+    public double getVELOCIDADE_MAXIMA() {
+        return VELOCIDADE_MAXIMA;
+    }
+
     public void addVelocidade(double velocidade) {
         this.velocidade += velocidade;
         if (this.velocidade < 0) {

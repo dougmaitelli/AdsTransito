@@ -1,5 +1,6 @@
 package br.feevale.ads.view;
 
+import br.feevale.ads.Parametros;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -40,16 +41,69 @@ public class RuaCanvas extends DoubleBuffer {
         return null;
     }
 
+    private void processarObstaculosContexto(Street rua) {
+        /* =================== TIAGO ===============
+         ADICIONA AQUI OS DIVERSOS CONTEXTOS QUE TU TESTAR E FAZER
+         GRAFICOS DE FORMA QUE POSSAMOS SIMULAR NA FRENTE DA PROFESSORA
+         CASO ELA SOLICITE.
+         ===========================================
+         */
+        switch (Parametros.contexto) {
+            default:
+            case 1: // sem nenhum obstaculo
+                break;
+
+            case 2: // obstaculos padroes que testamos em aula
+                rua.addObstaculo(new Reduction(rua, 0, 500, Reduction.TIPO_BURACO));
+                rua.addObstaculo(new Blockage(rua, 1, 700));
+                rua.addObstaculo(new Reduction(rua, 2, 300, Reduction.TIPO_BURACO));
+                break;
+
+            case 3: // apenas redutores
+                rua.addObstaculo(new Reduction(rua, 0, 500, Reduction.TIPO_BURACO));
+                rua.addObstaculo(new Reduction(rua, 2, 300, Reduction.TIPO_BURACO));
+                break;
+
+            case 4: // quebra molas
+                rua.addObstaculo(new Reduction(rua, 0, 900, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 1, 900, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 2, 900, Reduction.TIPO_REDUTOR));
+                break;
+
+            case 5: // quebra molas
+                rua.addObstaculo(new Reduction(rua, 0, 900, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 1, 900, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 2, 900, Reduction.TIPO_REDUTOR));
+                // inicio
+                rua.addObstaculo(new Reduction(rua, 0, 250, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 1, 250, Reduction.TIPO_REDUTOR));
+                rua.addObstaculo(new Reduction(rua, 2, 250, Reduction.TIPO_REDUTOR));
+                break;
+
+            case 6: // buracos
+                rua.addObstaculo(new Reduction(rua, 0, 500, Reduction.TIPO_BURACO));
+                rua.addObstaculo(new Reduction(rua, 1, 750, Reduction.TIPO_BURACO));
+                rua.addObstaculo(new Reduction(rua, 2, 300, Reduction.TIPO_BURACO));
+                break;
+
+        }
+    }
+
     public void loadRuas(File arquivo) {
         ruas = new ArrayList<StraightStreet>();
-        Street r = StraightStreet.createRuaFor(50, 350, 1100, 350, 3, "Pereira");
+        Street r = StraightStreet.createRuaFor(50, 50, 1100, 50, 3, "Pereira");
         addRua(r);
+        /* =================== TIAGO ===============
+         ADICIONA AQUI OS DIVERSOS CONTEXTOS QUE TU TESTAR E FAZER
+         GRAFICOS DE FORMA QUE POSSAMOS SIMULAR NA FRENTE DA PROFESSORA
+         CASO ELA SOLICITE.
+         ============================================
+         */
         for (Street rua : ruas) {
             rua.pack();
-            rua.addObstaculo(new Reduction(rua, 0, 500));
-            rua.addObstaculo(new Blockage(rua, 1, 700));
-            rua.addObstaculo(new Reduction(rua, 2, 300));
+            processarObstaculosContexto(rua);
         }
+        // repinta tela
         invalidate();
         repaint();
     }

@@ -114,9 +114,9 @@ public abstract class Street {
     public ListCars getCarros() {
         return carros;
     }
-    
+
     public void clear() {
-        
+
     }
 
     public abstract void processarCiclos(double ciclos);

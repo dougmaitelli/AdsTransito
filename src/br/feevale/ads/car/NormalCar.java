@@ -41,8 +41,9 @@ public class NormalCar extends Car {
 
             addVelocidade(-1);
         } else if (obstaculo instanceof Reduction) {
-            if (getVelocidade() > VELOCIDADE_MAXIMA * 0.5d) {
-                addVelocidade(-1);
+            if (getVelocidade() > obstaculo.calcularMaxVelocidade(this, getVelocidade())) {
+                double reduce = Math.min(-1, -(getVelocidade() * 0.1d));
+                addVelocidade(reduce);
             } else {
                 addVelocidade(1);
             }
