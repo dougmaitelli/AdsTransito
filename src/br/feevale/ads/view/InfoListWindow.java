@@ -16,16 +16,16 @@ import javax.swing.JFrame;
  *
  * @author carlosborges
  */
-public class ErrorListWindow extends JFrame implements ActionListener {
+public class InfoListWindow extends JFrame implements ActionListener {
 
-    private static ErrorListWindow currentInstance;
+    private static InfoListWindow currentInstance;
 
     private TextArea textArea;
 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
 
-    public ErrorListWindow() {
+    public InfoListWindow() {
         setLayout(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
@@ -50,8 +50,8 @@ public class ErrorListWindow extends JFrame implements ActionListener {
         ADS_Utils.closeWindow(this);
     }
 
-    public static ErrorListWindow createNewInstance(String title) {
-        currentInstance = new ErrorListWindow();
+    public static InfoListWindow createNewInstance(String title) {
+        currentInstance = new InfoListWindow();
         if (title == null) {
             title = "Error list";
         }
@@ -60,7 +60,7 @@ public class ErrorListWindow extends JFrame implements ActionListener {
         return currentInstance;
     }
 
-    public static ErrorListWindow getCurrentInstance() {
+    public static InfoListWindow getCurrentInstance() {
         return currentInstance;
     }
 
@@ -75,9 +75,9 @@ public class ErrorListWindow extends JFrame implements ActionListener {
         currentInstance.textArea.setText("");
     }
 
-    public static void appendStringLn(String error) {
+    public static void appendStringLn(String text) {
         createIfNull();
-        currentInstance.textArea.append(error + "\n");
+        currentInstance.textArea.append(text + "\n");
     }
 
     public static void main(String[] args) {

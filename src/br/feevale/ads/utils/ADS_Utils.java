@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
+import java.util.Random;
 import javax.swing.JLabel;
 
 /**
@@ -20,6 +21,8 @@ import javax.swing.JLabel;
 public class ADS_Utils {
 
     public static int FIELD_HEIGHT = 25;
+
+    public static Random random;
 
     public static void centerWindow(Window frame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,6 +49,26 @@ public class ADS_Utils {
 
     public static JLabel labelForText(String text, int width, int x, int y, Container container) {
         return labelForText(text, width, x, y, container, false);
+    }
+
+    public static void setRandomSeed(long seed) {
+        random = new Random(seed);
+    }
+
+    public static float getNextFloat() {
+        if (random == null) {
+            random = new Random();
+        }
+        return random.nextFloat();
+    }
+
+    public static double oscilateDouble(double maxValue, double minPercent) {
+        double gen = maxValue * minPercent;
+        gen += (getNextFloat() * maxValue) * (1.0 - minPercent);
+        if (gen > maxValue) {
+            return maxValue;
+        }
+        return gen;
     }
 
 }

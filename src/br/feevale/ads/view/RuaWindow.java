@@ -1,31 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.feevale.ads.view;
 
+import br.feevale.ads.Parametros;
+import br.feevale.ads.car.Car;
+import br.feevale.ads.street.Street;
+import br.feevale.ads.utils.ADS_Utils;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
-import br.feevale.ads.Parametros;
-import br.feevale.ads.street.Street;
-import br.feevale.ads.utils.ADS_Utils;
 
 /**
  * @author 0066115
  */
 public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalvouActionListener {
-	
+
     public class MoverThread extends Thread {
 
         private boolean shouldClose = false;
@@ -33,6 +32,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
         @Override
         public void run() {
             double ciclos = 1d / Parametros.ciclosPorSegundo;
+            ts_inicio = System.currentTimeMillis();
             while (!shouldClose) {
                 parar();
                 for (Street rua : RuaCanvas.ruas) {
@@ -41,7 +41,12 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
                 cicloAtual++;
                 //jpCanvas.invalidate();
                 jpCanvas.repaint();
+                ts_fim = System.currentTimeMillis();
                 updateUI();
+                if (rua.carrosConcluidos >= Parametros.totalVeiculos) {
+                    // valida se todos os carros ja encerraram o percurso
+                    close();
+                }
             }
         }
 
@@ -63,13 +68,18 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
     }
 
     private boolean isDebug = false;
+    private JLabel jlblCarrosConcluidos;
     private JLabel jlblCicloAtual;
-    private JLabel jlblCicloMedia;
+    private JLabel jlblCarrosTotal;
+    private JLabel jlblVelocidadeMaxima;
     private RuaCanvas jpCanvas;
-    public Parametros parametros = new Parametros();
-    private int cicloAtual;
     public MoverThread moverThread;
     public JButton btnIniciarParar;
+    public static Street rua;
+    private int cicloAtual = 0;
+
+    private long ts_inicio = 0;
+    private long ts_fim = 0;
 
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 900;
@@ -111,14 +121,33 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
         btnIniciarParar.setLocation(WIDTH - 240, 10);
         btnIniciarParar.setSize(100, 20);
         add(btnIniciarParar);
+        // exportar
+        btn = new JButton("Exportar");
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                exportarAction();
+            }
+        });
+        btn.setLocation(WIDTH - 350, 10);
+        btn.setSize(100, 20);
+        add(btn);
         //  ciclo
         ADS_Utils.labelForText("Ciclo atual:", 100, WIDTH - 240, 30, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
         jlblCicloAtual = ADS_Utils.labelForText("0", 100, WIDTH - 130, 30, this, isDebug);
         jlblCicloAtual.setHorizontalAlignment(SwingConstants.RIGHT);
-        // taxa media
-        ADS_Utils.labelForText("Taxa média:", 100, WIDTH - 240, 50, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
-        jlblCicloMedia = ADS_Utils.labelForText("0", 100, WIDTH - 130, 50, this, isDebug);
-        jlblCicloMedia.setHorizontalAlignment(SwingConstants.RIGHT);
+        // carros
+        ADS_Utils.labelForText("Carros add:", 100, WIDTH - 240, 50, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        jlblCarrosTotal = ADS_Utils.labelForText("0", 100, WIDTH - 130, 50, this, isDebug);
+        jlblCarrosTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+        // carros concluidos
+        ADS_Utils.labelForText("Carros fin:", 100, WIDTH - 240, 70, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        jlblCarrosConcluidos = ADS_Utils.labelForText("0", 100, WIDTH - 130, 70, this, isDebug);
+        jlblCarrosConcluidos.setHorizontalAlignment(SwingConstants.RIGHT);
+        // velocidade maxima
+        ADS_Utils.labelForText("Vel. máx:", 100, WIDTH - 240, 90, this, isDebug).setHorizontalAlignment(SwingConstants.RIGHT);
+        jlblVelocidadeMaxima = ADS_Utils.labelForText("0", 100, WIDTH - 130, 90, this, isDebug);
+        jlblVelocidadeMaxima.setHorizontalAlignment(SwingConstants.RIGHT);
         // canvas
         jpCanvas = new RuaCanvas();
         int canvasHeight = 700;
@@ -136,16 +165,48 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
                 }
             }
         });
+        // atualiza
+        updateUI();
+    }
+
+    private void exportarAction() {
+        if (rua == null) {
+            return;
+        }
+        JFileChooser fc = new JFileChooser();
+        int retorno = fc.showSaveDialog(this);
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            PrintWriter out = null;
+            try {
+                file.createNewFile();
+                out = new PrintWriter(file);
+                for (Car carro : rua.getCarros()) {
+                    out.println(carro.getId() + "\t" + carro.getTimeIniciou() + "\t" + carro.getTimeConcluiu());
+                }
+                out.close();
+                Desktop.getDesktop().open(file);
+            } catch (IOException ex) {
+                System.out.println("Fudeu");
+                ex.printStackTrace();
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+            }
+        }
     }
 
     private void moverThreadIniciar() {
         if (moverThread != null) {
             moverThreadParar();
-            btnIniciarParar.setText("Iniciar");
         } else {
+            jpCanvas.loadRuas(null);
             moverThread = new MoverThread();
             moverThread.start();
             btnIniciarParar.setText("Parar");
+            jpCanvas.invalidate();
+            jpCanvas.repaint();
         }
     }
 
@@ -153,24 +214,28 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
         if (moverThread != null) {
             moverThread.close();
             moverThread = null;
+            btnIniciarParar.setText("Iniciar");
         }
     }
 
     private void actionConfigurarClick(ActionEvent evt) {
-        moverThreadParar();
-        ParametrosWindow.createAndShow(parametros, this);
+//        moverThreadParar(); // nao precisa, para no salvar
+        ParametrosWindow.createAndShow(this);
     }
 
     @Override
-    public void onParametroSalvou(Parametros parametros) {
+    public void onParametroSalvou() {
         moverThreadParar();
-        this.parametros = parametros;
-        cicloAtual = 0;
         updateUI();
     }
 
     private void updateUI() {
-        jlblCicloAtual.setText(String.valueOf(cicloAtual));
+        double tempo = ts_fim - ts_inicio;
+        tempo /= 1000.0;
+        jlblCicloAtual.setText(String.format("%.3f", tempo) + "s - " + cicloAtual);
+        jlblCarrosTotal.setText("" + rua.getCarros().size() + "/" + Parametros.totalVeiculos);
+        jlblCarrosConcluidos.setText("" + rua.carrosConcluidos + "/" + Parametros.totalVeiculos);
+        jlblVelocidadeMaxima.setText("" + Parametros.velocidadeMaxima);
     }
 
 }

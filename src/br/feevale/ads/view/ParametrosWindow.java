@@ -5,11 +5,17 @@
  */
 package br.feevale.ads.view;
 
+import br.feevale.ads.Parametros;
+import br.feevale.ads.Parametros.Tipo;
+import br.feevale.ads.utils.ADS_Utils;
+import br.feevale.ads.utils.SpringUtilities;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,10 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.utils.ADS_Utils;
-import br.feevale.ads.utils.SpringUtilities;
-
 /**
  *
  * @author 0066115
@@ -31,63 +33,53 @@ public class ParametrosWindow extends JFrame {
 
     public static interface ParametrosSalvouActionListener {
 
-        public void onParametroSalvou(Parametros parametros);
+        public void onParametroSalvou();
 
     }
 
-    private JPanel panel = new JPanel();
-
     public static final int WIDTH = 220;
     public static final int HEIGHT = 226;
-
-    private JTextField jtfCiclosPorSegundo;
-    private JTextField jtfNumeroVeiculos;
-    private JTextField jtfIntervaloEntradaMin;
-    private JTextField jtfIntervaloEntradaMax;
-
-    public ParametrosSalvouActionListener listener;
-
     public static ParametrosWindow singleton = null;
 
+    private Container panel;
+    private HashMap<Tipo, JTextField> campos;
+
+    private ParametrosSalvouActionListener listener;
+
     private void addLabel(String text) {
+        if (!text.endsWith(":")) {
+            text += ":";
+        }
         JLabel lbl = new JLabel(text);
+        lbl.setHorizontalAlignment(SwingConstants.RIGHT);
         panel.add(lbl);
     }
 
     public ParametrosWindow() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        panel.setSize(WIDTH, HEIGHT);
-        panel.setLayout(new SpringLayout());
+        panel = new JPanel();
         panel.setLocation(0, 0);
-        add(panel);
+        panel.setLayout(new SpringLayout());
         // size
-        setSize(WIDTH, HEIGHT);
         setLayout(new SpringLayout());
         setTitle("Parâmetros");
-        // taxa por segundo
-        addLabel("Ciclos por segundo:");
-        jtfCiclosPorSegundo = new JTextField("30");
-        jtfCiclosPorSegundo.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfCiclosPorSegundo.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        panel.add(jtfCiclosPorSegundo);
-        // numero de veiculos inseridos
-        addLabel("Total de veículos:");
-        jtfNumeroVeiculos = new JTextField("100");
-        jtfNumeroVeiculos.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfNumeroVeiculos.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        panel.add(jtfNumeroVeiculos);
-        // intervalo de entrada
-        addLabel("Intervalo min.:");
-        jtfIntervaloEntradaMin = new JTextField("20");
-        jtfIntervaloEntradaMin.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfIntervaloEntradaMin.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        panel.add(jtfIntervaloEntradaMin);
-        // intervalo minimo saida
-        addLabel("Intervalo max:");
-        jtfIntervaloEntradaMax = new JTextField("60");
-        jtfIntervaloEntradaMax.setHorizontalAlignment(SwingConstants.RIGHT);
-        jtfIntervaloEntradaMax.setSize(100, ADS_Utils.FIELD_HEIGHT);
-        panel.add(jtfIntervaloEntradaMax);
+        // cria
+        HashMap<Tipo, String> map = Parametros.getListParametros();
+        List<Tipo> list = Parametros.Tipo.orderedList();
+        campos = new HashMap<Tipo, JTextField>();
+        for (Tipo tp : list) {
+            String valor = map.get(tp);
+            if (valor == null) {
+                valor = "0";
+            }
+            addLabel(tp.getTitulo());
+            JTextField fd = new JTextField(valor);
+            fd.setHorizontalAlignment(SwingConstants.RIGHT);
+            fd.setSize(100, ADS_Utils.FIELD_HEIGHT);
+            panel.add(fd);
+            // adiciona campo
+            campos.put(tp, fd);
+        }
         // cancelar
         JButton btn = new JButton("Cancelar");
         btn.addActionListener(new ActionListener() {
@@ -108,7 +100,7 @@ public class ParametrosWindow extends JFrame {
         panel.add(btn);
         //Lay out the panel.
         SpringUtilities.makeCompactGrid(panel, //parent
-                5, 2, // rows, cols
+                map.size() + 1, 2, // rows, cols
                 5, 5, //initX, initY
                 10, 10); //xPad, yPad
         // se fechar
@@ -118,33 +110,34 @@ public class ParametrosWindow extends JFrame {
                 singleton = null;
             }
         });
+        // panel
+        setContentPane(panel);
+        pack();
     }
 
-    public static void createAndShow(Parametros param, ParametrosSalvouActionListener listener) {
+    public static void createAndShow(ParametrosSalvouActionListener listener) {
         singleton = new ParametrosWindow();
         ADS_Utils.centerWindow(singleton);
-        singleton.loadParametros(param);
         singleton.listener = listener;
         singleton.setVisible(true);
     }
 
-    private void loadParametros(Parametros param) {
-        jtfCiclosPorSegundo.setText(String.valueOf(param.ciclosPorSegundo));
-        jtfNumeroVeiculos.setText(String.valueOf(param.totalVeiculos));
-        jtfIntervaloEntradaMin.setText(String.valueOf(param.intervaloVeiculoMin));
-        jtfIntervaloEntradaMax.setText(String.valueOf(param.intervaloVeiculoMax));
-    }
-
     private void actionSalvarClick() {
         try {
-            Parametros parametros = new Parametros();
-            parametros.ciclosPorSegundo = Integer.parseInt(jtfCiclosPorSegundo.getText());
-            parametros.totalVeiculos = Integer.parseInt(jtfNumeroVeiculos.getText());
-            parametros.intervaloVeiculoMin = Integer.parseInt(jtfIntervaloEntradaMin.getText());
-            parametros.intervaloVeiculoMax = Integer.parseInt(jtfIntervaloEntradaMax.getText());
-            if (listener != null) {
-                listener.onParametroSalvou(parametros);
+            HashMap<Tipo, String> valores = new HashMap<Tipo, String>();
+            for (Tipo tp : campos.keySet()) {
+                valores.put(tp, campos.get(tp).getText());
             }
+            // salva
+            if (!Parametros.putListParametros(valores)) {
+                JOptionPane.showMessageDialog(null, "Formato de dados errado.");
+                return;
+            }
+            // avisa
+            if (listener != null) {
+                listener.onParametroSalvou();
+            }
+            // fecha
             ADS_Utils.closeWindow(this);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Formato de dados errado.");
