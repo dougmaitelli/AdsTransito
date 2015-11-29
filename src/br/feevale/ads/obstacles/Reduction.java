@@ -46,8 +46,8 @@ public class Reduction extends Obstacle {
 
             case TIPO_BURACO: {
                 double vel = velocidadeAtual * 0.70;
-                if (vel < (carro.getVELOCIDADE_MAXIMA() * 0.3)) {
-                    return carro.getVELOCIDADE_MAXIMA() * 0.3;
+                if (vel < (Parametros.velocidadeMaximaRedutor * 2)) {
+                    return (Parametros.velocidadeMaximaRedutor * 2);
                 }
                 return vel;
             }

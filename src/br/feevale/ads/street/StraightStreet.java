@@ -225,7 +225,7 @@ public class StraightStreet extends Street {
         for (Car carro : carros) {
             carro.moverCiclo(ciclos);
 
-            if (carro.getDistancia() < 5d / metrosPorPixel) {
+            if (carro.getDistancia() < (Parametros.velocidadeMaxima * 2.5)) {
                 viasLivres.remove((Integer) carro.getVia());
             }
             if (!carro.isConcluiuPercurso()) {
