@@ -33,6 +33,7 @@ public class RuaWindow extends JFrame implements ParametrosWindow.ParametrosSalv
         public void run() {
             double ciclos = 1d / Parametros.ciclosPorSegundo;
             ts_inicio = System.currentTimeMillis();
+            cicloAtual = 0;
             while (!shouldClose) {
                 parar();
                 for (Street rua : RuaCanvas.ruas) {

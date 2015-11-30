@@ -19,6 +19,7 @@ public class Parametros {
         DISTANCIA_ATENCAO("Dist. atenção min"),
         SEMENTE_RANDOM("Semente"),
         CONTEXTO("Contexto"),
+        GRAU_DISTANCIA_ENTRADA("Grau distância de entrada"),
         VELOCIDADE_MAXIMA_REDUTOR("Vel. máx. redutor");
 
         private final String titulo;
@@ -41,6 +42,7 @@ public class Parametros {
             list.add(GRAU_ATENCAO);
             list.add(CICLO_POR_SEGUNDO);
             list.add(VELOCIDADE_MAXIMA_REDUTOR);
+            list.add(GRAU_DISTANCIA_ENTRADA);
             return list;
         }
 
@@ -58,6 +60,7 @@ public class Parametros {
         map.put(Tipo.GRAU_ATENCAO, "" + grauAtencao);
         map.put(Tipo.CICLO_POR_SEGUNDO, "" + ciclosPorSegundo);
         map.put(Tipo.VELOCIDADE_MAXIMA_REDUTOR, "" + velocidadeMaximaRedutor);
+        map.put(Tipo.GRAU_DISTANCIA_ENTRADA, "" + grauDistanciaEntrada);
         return map;
     }
 
@@ -98,6 +101,10 @@ public class Parametros {
                     case VELOCIDADE_MAXIMA_REDUTOR:
                         velocidadeMaximaRedutor = Double.parseDouble(valor);
                         break;
+
+                    case GRAU_DISTANCIA_ENTRADA:
+                        grauDistanciaEntrada = Double.parseDouble(valor);
+                        break;
                 }
             } catch (Exception ex) {
                 return false;
@@ -114,5 +121,6 @@ public class Parametros {
     public static int totalVeiculos = 140;
     public static int velocidadeMaxima = 30;
     public static double velocidadeMaximaRedutor = 7d;
+    public static double grauDistanciaEntrada = 2.5d;
 
 }
