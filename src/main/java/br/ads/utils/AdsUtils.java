@@ -9,11 +9,7 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 import javax.swing.JLabel;
 
-/**
- *
- * @author 0066115
- */
-public class ADS_Utils {
+public class AdsUtils {
 
     public static int FIELD_HEIGHT = 25;
 

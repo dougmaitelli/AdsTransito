@@ -1,6 +1,6 @@
 package br.ads.car;
 
-import br.ads.Parametros;
+import br.ads.Parameters;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,49 +14,43 @@ import br.ads.utils.ListCars;
 public abstract class Car {
 
     private static final int PADDING = 4;
-    private static final int WIDTH = Street.RUA_WIDTH - PADDING;
-    private static final int DEEP = (int) (Street.RUA_WIDTH * 1.5);
+    private static final int WIDTH = Street.STREET_WIDTH - PADDING;
+    private static final int DEEP = (int) (Street.STREET_WIDTH * 1.5);
 
-    protected double GRAU_DE_ATENCAO = Parametros.grauAtencao;
-    protected double DISTANCIA_DE_ATENCAO = Parametros.distanciaAtencao; // metros
-    protected double VELOCIDADE_MAXIMA = Parametros.velocidadeMaxima; // metros por segundo
+    protected double ATTENTION_LEVEL = Parameters.attentionLevel;
+    protected double ATTENTION_DISTANCE = Parameters.attentionDistance; // metros
+    protected double MAX_SPEED = Parameters.maxSpeed; // metros por segundo
 
     private Point centro;
     private Rectangle rect;
-    private float angle = 0;
     private Color color = Color.GREEN;
 
     private static int SEQ_ID_GENERATOR = 1;
 
-    private Street rua;
-    private int via;
+    private Street street;
+    private int lane;
     private int id;
 
-    private int distancia = 0;
-    private double velocidade = 0;
-    private boolean concluiuPercurso = false;
+    private int distance = 0;
+    private double speed = 0;
+    private boolean finishedCourse = false;
 
-    public long timeIniciou = 0L;
-    public long timeConcluiu = 0L;
+    public long timeStarted = 0L;
+    public long timeFinished = 0L;
 
-    private ListCars carrosProximos;
+    private ListCars closeCars;
 
     public Car() {
-        id = SEQ_ID_GENERATOR;
-        SEQ_ID_GENERATOR++;
+        id = SEQ_ID_GENERATOR++;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setCentro(Point centro) {
-        int x = centro.x - (DEEP / 2);
-        int y = centro.y - (WIDTH / 2);
+    public void setCenter(Point center) {
+        int x = center.x - (DEEP / 2);
+        int y = center.y - (WIDTH / 2);
         this.centro = new Point(x, y);
         this.rect = new Rectangle(x, y, DEEP, WIDTH);
     }
@@ -64,118 +58,116 @@ public abstract class Car {
     public void drawPath(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(color);
-//        g2d.rotate(angle);
         g2d.draw(rect);
         g2d.fill(rect);
-//        g2d.rotate(-angle);
     }
 
-    public Street getRua() {
-        return rua;
+    public Street getStreet() {
+        return street;
     }
 
-    public void setRua(Street rua, int via) {
-        if (this.rua != null) {
-            rua.removeCarro(this);
+    public void setStreet(Street street, int lane) {
+        if (this.street != null) {
+            street.removeCar(this);
         }
-        this.rua = rua;
-        this.via = via;
-        timeIniciou = System.currentTimeMillis();
+        this.street = street;
+        this.lane = lane;
+        timeStarted = System.currentTimeMillis();
     }
 
-    public int getVia() {
-        return via;
+    public int getLane() {
+        return lane;
     }
 
-    public void setVia(int via) {
-        if (via < 0 || via > rua.getVias() - 1) {
+    public void setLane(int lane) {
+        if (lane < 0 || lane > street.getLanes() - 1) {
             return;
         }
 
-        this.via = via;
+        this.lane = lane;
     }
 
-    public int getDistancia() {
-        return distancia;
+    public int getDistance() {
+        return distance;
     }
 
-    public double getVelocidade() {
-        return velocidade;
+    public double getSpeed() {
+        return speed;
     }
 
-    public double getVELOCIDADE_MAXIMA() {
-        return VELOCIDADE_MAXIMA;
+    public double getMaxSpeed() {
+        return MAX_SPEED;
     }
 
-    public void addVelocidade(double velocidade) {
-        this.velocidade += velocidade;
-        if (this.velocidade < 0) {
-            this.velocidade = 0;
+    public void addSpeed(double speed) {
+        this.speed += speed;
+        if (this.speed < 0) {
+            this.speed = 0;
         }
-        if (this.velocidade > VELOCIDADE_MAXIMA) {
-            this.velocidade = VELOCIDADE_MAXIMA;
+        if (this.speed > MAX_SPEED) {
+            this.speed = MAX_SPEED;
         }
-        DISTANCIA_DE_ATENCAO = Math.max(Parametros.distanciaAtencao, this.velocidade * GRAU_DE_ATENCAO);
+        ATTENTION_DISTANCE = Math.max(Parameters.attentionDistance, this.speed * ATTENTION_LEVEL);
     }
 
-    public boolean isConcluiuPercurso() {
-        return concluiuPercurso;
+    public boolean isFinishedCourse() {
+        return finishedCourse;
     }
 
-    public void setConcluiuPercurso(boolean concluiuPercurso) {
-        if (this.concluiuPercurso) {
+    public void setFinishedCourse(boolean finishedCourse) {
+        if (this.finishedCourse) {
             return;
         }
-        timeConcluiu = System.currentTimeMillis();
-        this.concluiuPercurso = concluiuPercurso;
+        timeFinished = System.currentTimeMillis();
+        this.finishedCourse = finishedCourse;
     }
 
-    public ListCars getCarrosProximos() {
-        return carrosProximos;
+    public ListCars getCloseCars() {
+        return closeCars;
     }
 
-    public void moverCiclo(double ciclos) {
-        if (rua == null) {
+    public void moveCycle(double cycles) {
+        if (street == null) {
             return;
         }
 
-        carrosProximos = rua.getCarrosProximos(this, DISTANCIA_DE_ATENCAO);
+        closeCars = street.getCloseCars(this, ATTENTION_DISTANCE);
 
-        if (carrosProximos.getCarrosAhead(this).size() > 0) {
-            reactionCarroAhead();
+        if (closeCars.getCarsAhead(this).size() > 0) {
+            reactionCarAhead();
         } else {
-            Obstacle obstaculo = rua.getObstaculosAhead(this, DISTANCIA_DE_ATENCAO);
+            Obstacle obstacle = street.getObstaclesAhead(this, ATTENTION_DISTANCE);
 
-            if (obstaculo != null) {
-                reactionObstaculoAhead(obstaculo);
+            if (obstacle != null) {
+                reactionObstacleAhead(obstacle);
             } else {
-                reactionCaminhoLivre();
+                reactionFreeWay();
             }
         }
 
-        if (carrosProximos.getCarrosBehind(this).size() > 0) {
-            reactionCarroBehind();
+        if (closeCars.getCarsBehind(this).size() > 0) {
+            reactionCarBehind();
         }
 
-        distancia += (ciclos * velocidade) / rua.getMetrosPorPixel();
+        distance += (cycles * speed) / street.getMetersPerPixel();
 
-        setCentro(rua.pontoForVia(via, distancia));
+        setCenter(street.pointForLane(lane, distance));
     }
 
-    public long getTimeIniciou() {
-        return timeIniciou;
+    public long getTimeStarted() {
+        return timeStarted;
     }
 
-    public long getTimeConcluiu() {
-        return timeConcluiu;
+    public long getTimeFinished() {
+        return timeFinished;
     }
 
-    public abstract void reactionCarroAhead();
+    public abstract void reactionCarAhead();
 
-    public abstract void reactionObstaculoAhead(Obstacle obstaculo);
+    public abstract void reactionObstacleAhead(Obstacle obstacle);
 
-    public abstract void reactionCarroBehind();
+    public abstract void reactionCarBehind();
 
-    public abstract void reactionCaminhoLivre();
+    public abstract void reactionFreeWay();
 
 }

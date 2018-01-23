@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>AdsTransito</groupId>
 	<artifactId>AdsTransito</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -43,7 +43,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>br.ads.AdsTransito</mainClass>
+							<mainClass>br.ads.AdsTransit</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

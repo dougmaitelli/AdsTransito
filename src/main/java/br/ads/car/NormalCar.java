@@ -3,61 +3,59 @@ package br.ads.car;
 import br.ads.obstacles.Blockage;
 import br.ads.obstacles.Obstacle;
 import br.ads.obstacles.Reduction;
-import br.ads.utils.ADS_Utils;
+import br.ads.utils.AdsUtils;
 
-/**
- * @author 0066115
- */
 public class NormalCar extends Car {
 
     public NormalCar() {
         super();
-        VELOCIDADE_MAXIMA = ADS_Utils.oscilateDouble(VELOCIDADE_MAXIMA, 0.75);
-        // velocidade inicial do carro eh 50% da velocidade maxima na entrada
-        addVelocidade(VELOCIDADE_MAXIMA * 0.5);
+        MAX_SPEED = AdsUtils.oscilateDouble(MAX_SPEED, 0.75);
+
+        // Initial speed is 50% of entrance speed
+        addSpeed(MAX_SPEED * 0.5);
     }
 
     @Override
-    public void reactionCarroAhead() {
-        double reducao = -(getVelocidade() * 0.1);
-        reducao = Math.min(-1, reducao);
-        addVelocidade(reducao);
-        if (getVelocidade() < VELOCIDADE_MAXIMA - 3d) {
-            int novaVia = getVia() + (ADS_Utils.getNextFloat() > 0.5 ? 1 : -1);
-            if (getCarrosProximos().getCarrosVia(novaVia).size() == 0) {
-                setVia(novaVia);
+    public void reactionCarAhead() {
+        double reduction = -(getSpeed() * 0.1);
+        reduction = Math.min(-1, reduction);
+        addSpeed(reduction);
+        if (getSpeed() < MAX_SPEED - 3d) {
+            int newLane = getLane() + (AdsUtils.getNextFloat() > 0.5 ? 1 : -1);
+            if (getCloseCars().getCarsLane(newLane).size() == 0) {
+                setLane(newLane);
             }
         }
     }
 
     @Override
-    public void reactionObstaculoAhead(Obstacle obstaculo) {
-        if (obstaculo instanceof Blockage) {
-            int novaVia = getVia() + (ADS_Utils.getNextFloat() > 0.5 ? 1 : -1);
+    public void reactionObstacleAhead(Obstacle obstacle) {
+        if (obstacle instanceof Blockage) {
+            int newLane = getLane() + (AdsUtils.getNextFloat() > 0.5 ? 1 : -1);
 
-            if (getCarrosProximos().getCarrosVia(novaVia).size() == 0) {
-                setVia(novaVia);
+            if (getCloseCars().getCarsLane(newLane).size() == 0) {
+                setLane(newLane);
             }
 
-            addVelocidade(-1);
-        } else if (obstaculo instanceof Reduction) {
-            if (getVelocidade() > obstaculo.calcularMaxVelocidade(this, getVelocidade())) {
-                double reduce = Math.min(-1, -(getVelocidade() * 0.1d));
-                addVelocidade(reduce);
+            addSpeed(-1);
+        } else if (obstacle instanceof Reduction) {
+            if (getSpeed() > obstacle.calculateMaxSpeed(this, getSpeed())) {
+                double reduce = Math.min(-1, -(getSpeed() * 0.1d));
+                addSpeed(reduce);
             } else {
-                addVelocidade(1);
+                addSpeed(1);
             }
         }
     }
 
     @Override
-    public void reactionCarroBehind() {
+    public void reactionCarBehind() {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void reactionCaminhoLivre() {
-        addVelocidade(0.2);
+    public void reactionFreeWay() {
+        addSpeed(0.2);
     }
 
 }

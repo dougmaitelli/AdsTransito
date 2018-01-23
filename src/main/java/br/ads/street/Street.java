@@ -12,43 +12,35 @@ import br.ads.car.Car;
 import br.ads.obstacles.Obstacle;
 import br.ads.utils.ListCars;
 
-/**
- *
- * @author 0066115
- */
 public abstract class Street {
 
-    public static final int RUA_WIDTH = 12;
-    public static final int LINHA_WIDTH = 2;
+    public static final int STREET_WIDTH = 12;
+    public static final int LINE_WIDTH = 2;
 
-    public static final Color COR_RUA = Color.DARK_GRAY;
-    public static final Color COR_LINHA_BRANCA = Color.WHITE;
-    public static final Color COR_LINHA_AMARELA = Color.YELLOW;
-    public static final Color COR_LINHA_VIA_IDA = Color.GREEN;
-    public static final Color COR_LINHA_VIA_VOLTA = Color.RED;
+    public static final Color COLOR_STREET = Color.DARK_GRAY;
+    public static final Color COLOR_LINE_WHITE = Color.WHITE;
+    public static final Color COLOR_LINE_YELLOW = Color.YELLOW;
 
-    public static final BasicStroke LINHA_STROKE = new BasicStroke(LINHA_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0f, new float[]{5f}, 0f);
-    public static final BasicStroke CAMINHO_STROKE = new BasicStroke(LINHA_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND);
+    public static final BasicStroke LANE_STROKE = new BasicStroke(LINE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0f, new float[]{5f}, 0f);
 
-    public static boolean DRAW_VIA = false;
     public static GeneralPath path = new GeneralPath();
 
-    protected String nome;
+    protected String name;
 
-    protected Point ponto1;
-    protected Point ponto2;
+    protected Point point1;
+    protected Point point2;
 
-    public int carrosConcluidos = 0;
+    public int finishedCars = 0;
 
-    protected int vias;
+    protected int lanes;
 
-    protected double metrosPorPixel;
+    protected double metersPerPixel;
 
-    protected ListCars carros = new ListCars();
-    protected List<Obstacle> obstrucoes = new ArrayList<>();
+    protected ListCars cars = new ListCars();
+    protected List<Obstacle> obstacles = new ArrayList<>();
 
-    public Street(double metrosPorPixel) {
-        this.metrosPorPixel = metrosPorPixel;
+    public Street(double metersPerPixel) {
+        this.metersPerPixel = metersPerPixel;
     }
 
     public abstract void pack();
@@ -57,63 +49,62 @@ public abstract class Street {
 
     public abstract boolean contains(Point p);
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getVias() {
-        return vias;
+    public int getLanes() {
+        return lanes;
     }
 
-    public double getMetrosPorPixel() {
-        return metrosPorPixel;
+    public double getMetersPerPixel() {
+        return metersPerPixel;
     }
 
-    public abstract Point pontoForVia(int via, float distancia);
+    public abstract Point pointForLane(int lane, float distance);
 
-    public abstract void addCarro(int via, Car carro);
+    public abstract void addCar(int via, Car car);
 
-    public abstract void removeCarro(Car carro);
+    public abstract void removeCar(Car car);
 
-    public ListCars getCarrosProximos(Car carro, double distanciaMetros) {
-        return carros.getCarrosProximos(carro, distanciaMetros / metrosPorPixel);
+    public ListCars getCloseCars(Car car, double distanceMeters) {
+        return cars.getCloseCars(car, distanceMeters / metersPerPixel);
     }
 
-    public Obstacle getObstaculosAhead(Car carro, double distanciaMetros) {
-        int via = carro.getVia();
-        int distanciaPercorrida = carro.getDistancia();
+    public Obstacle getObstaclesAhead(Car car, double distanceMeters) {
+        int via = car.getLane();
+        int runDistance = car.getDistance();
 
-        Obstacle obstaculoProximo = null;
+        Obstacle closestObstacle = null;
 
-        for (Obstacle o : obstrucoes) {
-            if (via != o.getVia() || distanciaPercorrida > o.getDistancia()) {
+        for (Obstacle o : obstacles) {
+            if (via != o.getLane() || runDistance > o.getDistance()) {
                 continue;
             }
 
-            if (obstaculoProximo == null && o.getDistancia() - distanciaPercorrida <= distanciaMetros / metrosPorPixel || obstaculoProximo != null && o.getDistancia() < obstaculoProximo.getDistancia()) {
-                obstaculoProximo = o;
+            if (closestObstacle == null && o.getDistance() - runDistance <= distanceMeters / metersPerPixel || closestObstacle != null && o.getDistance() < closestObstacle.getDistance()) {
+                closestObstacle = o;
             }
         }
 
-        return obstaculoProximo;
+        return closestObstacle;
     }
 
-    public void addObstaculo(Obstacle obstaculo) {
-        obstrucoes.add(obstaculo);
+    public void addObstacle(Obstacle obstacle) {
+        obstacles.add(obstacle);
     }
 
-    public ListCars getCarros() {
-        return carros;
+    public ListCars getCars() {
+        return cars;
     }
 
     public void clear() {
-
     }
 
-    public abstract void processarCiclos(double ciclos);
+    public abstract void processCycles(double cycles);
 
 }

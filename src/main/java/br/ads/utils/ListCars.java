@@ -8,62 +8,62 @@ public class ListCars extends ArrayList<Car> {
 
     private static final long serialVersionUID = 1L;
 
-    public ListCars getCarrosProximos(Car carro, double distancia) {
-        ListCars carrosProximos = new ListCars();
+    public ListCars getCloseCars(Car car, double distance) {
+        ListCars closeCars = new ListCars();
 
-        int distanciaPercorrida = carro.getDistancia();
+        int totalDistance = car.getDistance();
 
         for (Car c : this) {
-            if (Math.abs(c.getDistancia() - distanciaPercorrida) <= distancia) {
-                carrosProximos.add(c);
+            if (Math.abs(c.getDistance() - totalDistance) <= distance) {
+                closeCars.add(c);
             }
         }
 
-        return carrosProximos;
+        return closeCars;
     }
 
-    public ListCars getCarrosAhead(Car carro) {
-        ListCars carrosProximos = new ListCars();
+    public ListCars getCarsAhead(Car car) {
+        ListCars closeCars = new ListCars();
 
         for (Car c : this) {
-            if (c.getVia() != carro.getVia()) {
+            if (c.getLane() != car.getLane()) {
                 continue;
             }
 
-            if (c.getDistancia() > carro.getDistancia()) {
-                carrosProximos.add(c);
+            if (c.getDistance() > car.getDistance()) {
+                closeCars.add(c);
             }
         }
 
-        return carrosProximos;
+        return closeCars;
     }
 
-    public ListCars getCarrosBehind(Car carro) {
-        ListCars carrosProximos = new ListCars();
+    public ListCars getCarsBehind(Car car) {
+        ListCars closeCars = new ListCars();
 
         for (Car c : this) {
-            if (c.getVia() != carro.getVia()) {
+            if (c.getLane() != car.getLane()) {
                 continue;
             }
 
-            if (c.getDistancia() < carro.getDistancia()) {
-                carrosProximos.add(c);
+            if (c.getDistance() < car.getDistance()) {
+                closeCars.add(c);
             }
         }
 
-        return carrosProximos;
+        return closeCars;
     }
 
-    public ListCars getCarrosVia(int via) {
-        ListCars carrosProximos = new ListCars();
+    public ListCars getCarsLane(int via) {
+        ListCars closeCars = new ListCars();
 
         for (Car c : this) {
-            if (c.getVia() == via) {
-                carrosProximos.add(c);
+            if (c.getLane() == via) {
+                closeCars.add(c);
             }
         }
 
-        return carrosProximos;
+        return closeCars;
     }
 
 }

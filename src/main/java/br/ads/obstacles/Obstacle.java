@@ -8,48 +8,48 @@ import br.ads.street.Street;
 
 public abstract class Obstacle {
 
-    private Street rua;
-    private int via;
+    private Street street;
+    private int lane;
 
-    private int distancia = 0;
+    private int distance;
 
-    public Obstacle(Street rua, int via, int distancia) {
-        this.distancia = distancia;
+    public Obstacle(Street street, int lane, int distance) {
+        this.distance = distance;
 
-        setRua(rua, via);
+        setStreet(street, lane);
     }
 
-    public abstract void setCentro(Point centro);
+    public abstract void setCenter(Point center);
 
     public abstract void drawPath(Graphics g);
 
-    public Street getRua() {
-        return rua;
+    public Street getStreet() {
+        return street;
     }
 
-    public void setRua(Street rua, int via) {
-        this.rua = rua;
-        this.via = via;
-        setCentro(rua.pontoForVia(via, distancia));
+    public void setStreet(Street rua, int via) {
+        this.street = rua;
+        this.lane = via;
+        setCenter(rua.pointForLane(via, distance));
     }
 
-    public int getVia() {
-        return via;
+    public int getLane() {
+        return lane;
     }
 
-    public void setVia(int via) {
-        if (via < 0 || via > rua.getVias() - 1) {
+    public void setLane(int lane) {
+        if (lane < 0 || lane > street.getLanes() - 1) {
             return;
         }
 
-        this.via = via;
+        this.lane = lane;
     }
 
-    public int getDistancia() {
-        return distancia;
+    public int getDistance() {
+        return distance;
     }
 
-    public double calcularMaxVelocidade(Car carro, double velocidadeAtual) {
+    public double calculateMaxSpeed(Car car, double currentSpeed) {
         return 0;
     }
 

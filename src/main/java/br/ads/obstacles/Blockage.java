@@ -10,21 +10,21 @@ import br.ads.street.Street;
 
 public class Blockage extends Obstacle {
 
-    private static final int WIDTH = Street.RUA_WIDTH;
-    private static final int DEEP = (int) (Street.RUA_WIDTH * 1.5);
+    private static final int WIDTH = Street.STREET_WIDTH;
+    private static final int DEEP = (int) (Street.STREET_WIDTH * 1.5);
 
-    private Point centro;
+    private Point center;
     private Rectangle rect;
     private Color color = Color.RED;
 
-    public Blockage(Street rua, int via, int distancia) {
-    	super(rua, via, distancia);
+    public Blockage(Street rua, int via, int distance) {
+    	super(rua, via, distance);
 	}
 
-    public void setCentro(Point centro) {
-        int x = centro.x - (DEEP / 2);
-        int y = centro.y - (WIDTH / 2);
-        this.centro = new Point(x, y);
+    public void setCenter(Point center) {
+        int x = center.x - (DEEP / 2);
+        int y = center.y - (WIDTH / 2);
+        this.center = new Point(x, y);
         this.rect = new Rectangle(x, y, DEEP, WIDTH);
     }
 
