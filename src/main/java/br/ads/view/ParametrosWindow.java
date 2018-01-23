@@ -1,4 +1,4 @@
-package br.feevale.ads.view;
+package br.ads.view;
 
 import br.ads.Parametros;
 import br.ads.Parametros.Tipo;

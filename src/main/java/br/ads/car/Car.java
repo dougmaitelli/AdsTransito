@@ -1,6 +1,6 @@
 package br.ads.car;
 
-import br.feevale.ads.Parametros;
+import br.ads.Parametros;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
