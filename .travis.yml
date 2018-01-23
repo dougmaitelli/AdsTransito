@@ -18,4 +18,4 @@ deploy:
     - "README.md"
     - "target/$FINALNAME-jar-with-dependencies.jar"
   on:
-tags: true
+    tags: true
