@@ -1,6 +1,6 @@
-package br.feevale.ads;
+package br.ads;
 
-import br.feevale.ads.utils.ADS_Utils;
+import br.ads.utils.ADS_Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

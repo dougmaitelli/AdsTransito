@@ -1,4 +1,4 @@
-package br.feevale.ads.street;
+package br.ads.street;
 
 import java.awt.Point;
 import java.util.ArrayList;

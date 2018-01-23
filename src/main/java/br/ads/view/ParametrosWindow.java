@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.feevale.ads.view;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.Parametros.Tipo;
-import br.feevale.ads.utils.ADS_Utils;
-import br.feevale.ads.utils.SpringUtilities;
+import br.ads.Parametros;
+import br.ads.Parametros.Tipo;
+import br.ads.utils.ADS_Utils;
+import br.ads.utils.SpringUtilities;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

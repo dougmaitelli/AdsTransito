@@ -1,6 +1,6 @@
-package br.feevale.ads.view;
+package br.ads.view;
 
-import br.feevale.ads.Parametros;
+import br.ads.Parametros;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,11 +8,11 @@ import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 
-import br.feevale.ads.obstacles.Blockage;
-import br.feevale.ads.obstacles.Reduction;
-import br.feevale.ads.street.Street;
-import br.feevale.ads.street.StraightStreet;
-import br.feevale.ads.utils.DoubleBuffer;
+import br.ads.obstacles.Blockage;
+import br.ads.obstacles.Reduction;
+import br.ads.street.Street;
+import br.ads.street.StraightStreet;
+import br.ads.utils.DoubleBuffer;
 
 /**
  *

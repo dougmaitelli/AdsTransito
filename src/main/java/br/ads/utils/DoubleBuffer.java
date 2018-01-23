@@ -1,4 +1,4 @@
-package br.feevale.ads.utils;
+package br.ads.utils;
 
 import java.awt.*;
 

@@ -1,10 +1,10 @@
-package br.feevale.ads.obstacles;
+package br.ads.obstacles;
 
-import br.feevale.ads.car.Car;
+import br.ads.car.Car;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import br.feevale.ads.street.Street;
+import br.ads.street.Street;
 
 public abstract class Obstacle {
 

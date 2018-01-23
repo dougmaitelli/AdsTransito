@@ -1,4 +1,4 @@
-package br.feevale.ads.street;
+package br.ads.street;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -7,10 +7,10 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.car.Car;
-import br.feevale.ads.car.NormalCar;
-import br.feevale.ads.obstacles.Obstacle;
+import br.ads.Parametros;
+import br.ads.car.Car;
+import br.ads.car.NormalCar;
+import br.ads.obstacles.Obstacle;
 
 /**
  *
@@ -94,7 +94,7 @@ public class StraightStreet extends Street {
          }
          }
          }
-                    
+
          l++;
          }
          */

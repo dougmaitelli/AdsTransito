@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.feevale.ads.street;
+package br.ads.street;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,9 +8,9 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.feevale.ads.car.Car;
-import br.feevale.ads.obstacles.Obstacle;
-import br.feevale.ads.utils.ListCars;
+import br.ads.car.Car;
+import br.ads.obstacles.Obstacle;
+import br.ads.utils.ListCars;
 
 /**
  *

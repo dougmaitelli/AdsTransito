@@ -1,4 +1,4 @@
-package br.feevale.ads.car;
+package br.ads.car;
 
 import br.feevale.ads.Parametros;
 import java.awt.Color;
@@ -7,9 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import br.feevale.ads.obstacles.Obstacle;
-import br.feevale.ads.street.Street;
-import br.feevale.ads.utils.ListCars;
+import br.ads.obstacles.Obstacle;
+import br.ads.street.Street;
+import br.ads.utils.ListCars;
 
 public abstract class Car {
 

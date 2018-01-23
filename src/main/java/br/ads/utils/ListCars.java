@@ -1,14 +1,11 @@
-package br.feevale.ads.utils;
+package br.ads.utils;
 
 import java.util.ArrayList;
 
-import br.feevale.ads.car.Car;
+import br.ads.car.Car;
 
 public class ListCars extends ArrayList<Car> {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public ListCars getCarrosProximos(Car carro, double distancia) {

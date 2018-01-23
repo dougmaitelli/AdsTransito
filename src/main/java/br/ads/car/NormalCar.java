@@ -1,9 +1,9 @@
-package br.feevale.ads.car;
+package br.ads.car;
 
-import br.feevale.ads.obstacles.Blockage;
-import br.feevale.ads.obstacles.Obstacle;
-import br.feevale.ads.obstacles.Reduction;
-import br.feevale.ads.utils.ADS_Utils;
+import br.ads.obstacles.Blockage;
+import br.ads.obstacles.Obstacle;
+import br.ads.obstacles.Reduction;
+import br.ads.utils.ADS_Utils;
 
 /**
  * @author 0066115

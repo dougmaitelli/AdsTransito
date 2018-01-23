@@ -1,14 +1,14 @@
-package br.feevale.ads.obstacles;
+package br.ads.obstacles;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.car.Car;
+import br.ads.Parametros;
+import br.ads.car.Car;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import br.feevale.ads.street.Street;
+import br.ads.street.Street;
 
 public class Reduction extends Obstacle {
 

@@ -1,9 +1,9 @@
-package br.feevale.ads.view;
+package br.ads.view;
 
-import br.feevale.ads.Parametros;
-import br.feevale.ads.car.Car;
-import br.feevale.ads.street.Street;
-import br.feevale.ads.utils.ADS_Utils;
+import br.ads.Parametros;
+import br.ads.car.Car;
+import br.ads.street.Street;
+import br.ads.utils.ADS_Utils;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
