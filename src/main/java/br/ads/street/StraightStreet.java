@@ -27,7 +27,7 @@ public class StraightStreet extends Street {
     }
 
     public static StraightStreet createStreetFor(int x1, int y1, int x2, int y2, int lanes, String name) {
-        StraightStreet r = new StraightStreet(0.1); //metros por pixel
+        StraightStreet r = new StraightStreet(0.1); // Meters per Pixel
         r.point1 = new Point(x1, y1);
         r.point2 = new Point(x2, y2);
         r.lanes = lanes;
@@ -66,11 +66,9 @@ public class StraightStreet extends Street {
         }
 
         calcAngle();
-        double raio = lanes * STREET_WIDTH;
-        raio = raio / 2;
-        double tmp = 0;
+        double raio = lanes * STREET_WIDTH / 2;
+        double tmp;
         for (int i = 1; i <= lanes; i++) {
-            // linha branca ida
             tmp = STREET_WIDTH;
             tmp = tmp / 2;
             tmp = ((lanes - i) * STREET_WIDTH) + tmp;
@@ -89,14 +87,11 @@ public class StraightStreet extends Street {
         path.moveTo(point1.x, point1.y);
         path.lineTo(point2.x, point2.y);
         g2d.draw(path);
-        // linhas na pista
-        // desenha as linhas
-        double raio = lanes * STREET_WIDTH;
-        raio = raio / 2;
-        double tmp = 0;
+
+        double raio = lanes * STREET_WIDTH / 2;
+        double tmp;
         g2d.setStroke(LANE_STROKE);
         for (int i = 0; i <= lanes; i++) {
-            // linha branca ida
             if ((i == 0) || (i == lanes)) {
                 g2d.setColor(COLOR_LINE_YELLOW);
             } else {
@@ -111,22 +106,20 @@ public class StraightStreet extends Street {
             path.lineTo(lastPoint.x, lastPoint.y);
             g2d.draw(path);
         }
-        for (Obstacle obstrucao : obstacles) {
-            obstrucao.drawPath(g2d);
+
+        // Draw Obstacles
+        for (Obstacle obstacle : obstacles) {
+            obstacle.drawPath(g2d);
         }
-        // desenha carros
+
+        // Draw Cars
         for (int i = 0; i < cars.size(); i++) {
-            Car carro = null;
-            try {
-                carro = cars.get(i);
-            } catch (Exception ex) {
-                continue;
-            }
-            if (carro != null) {
-                if (carro.isFinishedCourse()) {
+            Car car = cars.get(i);
+            if (car != null) {
+                if (car.isFinishedCourse()) {
                     continue;
                 }
-                carro.drawPath(g2d);
+                car.drawPath(g2d);
             }
         }
     }
@@ -139,10 +132,10 @@ public class StraightStreet extends Street {
         return lastPoint;
     }
 
-    private Point pointForRaio(double r, Point origem) {
+    private Point pointForRaio(double r, Point origin) {
         lastPoint = new Point();
-        lastPoint.x = origem.x + (int) (Math.cos(angle) * r);
-        lastPoint.y = origem.y + (int) (Math.sin(angle) * r);
+        lastPoint.x = origin.x + (int) (Math.cos(angle) * r);
+        lastPoint.y = origin.y + (int) (Math.sin(angle) * r);
         return lastPoint;
     }
 
